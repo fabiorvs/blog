@@ -1,0 +1,66 @@
+.masthead {
+  min-height: 400px;
+  background-image: url('../img/header.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.marker-green {
+  background-color: rgba(25, 156, 25, 0.473);
+}
+
+.marker-blue {
+  background-color: rgba(0, 13, 255, 0.479);
+}
+
+.marker-pink {
+  background-color: rgba(247, 0, 255, 0.479);
+}
+
+.marker-yellow {
+  background-color: rgba(251, 255, 0, 0.479);
+}
+
+.pen-red {
+  background-color: transparent;
+  color: rgba(182, 5, 5, 0.900);
+}
+
+.pen-green {
+  background-color: transparent;
+  color: rgba(26, 141, 3, 0.900);
+}
+
+blockquote {
+  font-family: Georgia, serif;
+  font-size: 18px;
+  font-style: italic;
+  width: 500px;
+  margin: 0.25em 0;
+  padding: 0.25em 40px;
+  line-height: 1.45;
+  position: relative;
+  color: #383838;
+}
+
+blockquote:before {
+  display: block;
+  content: "\201C";
+  font-size: 80px;
+  position: absolute;
+  left: -20px;
+  top: -20px;
+  color: #7a7a7a;
+}
+
+blockquote cite {
+  color: #999999;
+  font-size: 14px;
+  display: block;
+  margin-top: 5px;
+}
+
+blockquote cite:before {
+  content: "\2014 \2009";
+}
