@@ -1,4 +1,19 @@
 <?= $this->extend('layout') ?>
+
+<?= $this->section('estilos') ?>
+<style>
+    figure {
+        max-width: 100%;
+        height: auto;
+    }
+
+    figure img {
+        max-width: 100%;
+        height: auto;
+    }
+</style>
+<?= $this->endSection() ?>
+
 <?= $this->section('conteudo') ?>
 
 <!-- Post content-->
@@ -61,6 +76,33 @@
         </div>
     </div>
 </section>
+<?= $this->endSection() ?>
 
+<?= $this->section('scripts') ?>
+<script>
+    let oldIframe = document.querySelectorAll("oembed");
+    oldIframe = Array.from(oldIframe);
 
+    for (const i in oldIframe) {
+        //Get the url from oembed tag
+        let url = oldIframe[i].getAttribute("url");
+        //Replace 'watch?v' with 'embed/'
+        url = url.replace("watch?v=", "embed/");
+
+        //Create a iframe tag
+        const newIframe = document.createElement("iframe");
+        newIframe.setAttribute("width", "100%");
+        newIframe.setAttribute("height", "400px");
+        newIframe.setAttribute("allowFullScreen", "");
+        newIframe.setAttribute("frameBorder", 0);
+        if (url) {
+            newIframe.setAttribute("src", url);
+        }
+        // replace oldIframe with newIframe
+        oldIframe[i].parentNode.replaceChild(newIframe, oldIframe[i]);
+    }
+
+    const contentToRender = document.outerHTML;
+    console.log(contentToRender);
+</script>
 <?= $this->endSection() ?>

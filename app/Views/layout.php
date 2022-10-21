@@ -13,6 +13,7 @@
 	<link href="<?= base_url('assets/css/styles.css'); ?>" rel="stylesheet" />
 	<link href="<?= base_url('assets/css/custom.css'); ?>" rel="stylesheet" />
 	<link rel="stylesheet" href="<?= base_url('assets/high/styles/codepen-embed.min.css') ?>">
+	<?= $this->renderSection('estilos') ?>	
 </head>
 
 <body>
@@ -33,7 +34,7 @@
 	<header class="py-5 bg-light border-bottom mb-4 masthead">
 		<div class="container">
 			<div class="text-center my-5">
-				
+
 			</div>
 		</div>
 	</header>
@@ -94,6 +95,7 @@
 	<script>
 		hljs.highlightAll();
 	</script>
+	<?= $this->renderSection('scripts') ?>
 </body>
 
 </html>
