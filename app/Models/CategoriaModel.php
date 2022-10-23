@@ -66,4 +66,9 @@ class CategoriaModel extends Model
             ->where('id', $id)
             ->first();
     }
+
+    public function get_categorias_menu()
+    {
+        return $this->findAll();
+    }
 }

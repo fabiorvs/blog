@@ -4,7 +4,7 @@ if (!function_exists("menu_categorias")) {
     function menu_categorias()
     {
         $categoriaModel = new \App\Models\CategoriaModel;
-        $categorias = $categoriaModel->get_categorias();
+        $categorias = $categoriaModel->get_categorias_menu();
         foreach ($categorias as $categoria) {
             echo '<li><a href="' . base_url('categoria/' . $categoria['slug']) . '">' . $categoria['nome'] . '</a></li>';
         }
@@ -77,7 +77,7 @@ if (!function_exists("valida_slug_post")) {
         $postModel = new \App\Models\PostagemModel;
         $posts = $postModel->get_all_post_slug($slug);
         $total =  count($posts);
-        if($total > 0){
+        if ($total > 0) {
             return $slug . "-" . ($total + 1);
         } else {
             return $slug;
@@ -90,7 +90,7 @@ if (!function_exists("valida_slug_pagina")) {
         $paginaModel = new \App\Models\PaginaModel;
         $paginas = $paginaModel->get_all_paginas_slug($slug);
         $total =  count($paginas);
-        if($total > 0){
+        if ($total > 0) {
             return $slug . "-" . ($total + 1);
         } else {
             return $slug;
