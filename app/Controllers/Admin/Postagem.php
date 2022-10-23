@@ -28,7 +28,7 @@ class Postagem extends BaseController
     public function novo()
     {
         $dados = [
-            'categorias' =>  $this->categoriaModel->get_categorias()
+            'categorias' =>  $this->categoriaModel->get_categorias_menu()
         ];
 
         return view('admin/postagem_novo', $dados);
@@ -88,7 +88,7 @@ class Postagem extends BaseController
     {
         $dados = [
             'post' => $this->postagemModel->get_post_id($id),
-            'categorias' =>  $this->categoriaModel->get_categorias()
+            'categorias' =>  $this->categoriaModel->get_categorias_menu()
         ];
 
         return view('admin/postagem_editar', $dados);

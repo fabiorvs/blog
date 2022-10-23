@@ -44,24 +44,29 @@ $routes->add('/admin/login', 'Admin/Login::index');
 $routes->group("admin", ["filter" => "routeFilter"], function ($routes) {
     $routes->add('/', 'Admin/Dashboard::index');
 
-    $routes->add('postagem', 'Admin/Postagem::index');
-    $routes->add('postagem/novo', 'Admin/Postagem::novo');
-    $routes->add('postagem/editar', 'Admin/Postagem::editar');
-    $routes->add('postagem/salvar', 'Admin/Postagem::salvar');
-    $routes->add('postagem/excluir', 'Admin/Postagem::excluir');
+    $routes->group("postagem",  function ($routes) {
+        $routes->add('/', 'Admin/Postagem::index');
+        $routes->add('novo', 'Admin/Postagem::novo');
+        $routes->add('editar', 'Admin/Postagem::editar');
+        $routes->add('salvar', 'Admin/Postagem::salvar');
+        $routes->add('excluir', 'Admin/Postagem::excluir');
+    });
 
+    $routes->group("pagina",  function ($routes) {
+        $routes->add('/', 'Admin/Pagina::index');
+        $routes->add('novo', 'Admin/Pagina::novo');
+        $routes->add('editar', 'Admin/Pagina::editar');
+        $routes->add('salvar', 'Admin/Pagina::salvar');
+        $routes->add('excluir', 'Admin/Pagina::excluir');
+    });
 
-    $routes->add('pagina', 'Admin/Pagina::index');
-    $routes->add('pagina/novo', 'Admin/Pagina::novo');
-    $routes->add('pagina/editar', 'Admin/Pagina::editar');
-    $routes->add('pagina/salvar', 'Admin/Pagina::salvar');
-    $routes->add('pagina/excluir', 'Admin/Pagina::excluir');
-
-    $routes->add('categoria', 'Admin/Categoria::index');
-    $routes->add('categoria/novo', 'Admin/Categoria::novo');
-    $routes->add('categoria/editar', 'Admin/Categoria::editar');
-    $routes->add('categoria/salvar', 'Admin/Categoria::salvar');
-    $routes->add('categoria/excluir', 'Admin/Categoria::excluir');
+    $routes->group("categoria",  function ($routes) {
+        $routes->add('/', 'Admin/Categoria::index');
+        $routes->add('novo', 'Admin/Categoria::novo');
+        $routes->add('editar', 'Admin/Categoria::editar');
+        $routes->add('salvar', 'Admin/Categoria::salvar');
+        $routes->add('excluir', 'Admin/Categoria::excluir');
+    });
 });
 /*
  * --------------------------------------------------------------------
