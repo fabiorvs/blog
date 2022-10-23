@@ -45,7 +45,17 @@
                     <div class="title">
                         <h4>Páginas</h4>
                     </div>
-                    <a href="#">Acessar</a>
+                    <a href="<?= base_url('admin/pagina') ?>">Acessar</a>
+                </div>
+            </div>
+
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                <div class="box-part text-center">
+                    <i class="fa fa-th-list fa-3x" aria-hidden="true"></i>
+                    <div class="title">
+                        <h4>Categorias</h4>
+                    </div>
+                    <a href="<?= base_url('admin/categoria') ?>">Acessar</a>
                 </div>
             </div>
 
@@ -55,7 +65,7 @@
                     <div class="title">
                         <h4>Postagens</h4>
                     </div>
-                    <a href="#">Acessar</a>
+                    <a href="<?= base_url('admin/postagem') ?>">Acessar</a>
                 </div>
             </div>
 

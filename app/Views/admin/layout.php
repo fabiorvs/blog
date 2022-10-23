@@ -26,6 +26,7 @@
 						<li class="nav-item"><a class="nav-link" href="<?= base_url() ?>">Home</a></li>
 						<li class="nav-item"><a class="nav-link" href="<?= base_url('admin/pagina') ?>">Páginas</a></li>
 						<li class="nav-item"><a class="nav-link" href="<?= base_url('admin/postagem') ?>">Postagem</a></li>
+						<li class="nav-item"><a class="nav-link" href="<?= base_url('admin/categoria') ?>">Categorias</a></li>
 						<li class="nav-item"><a class="nav-link" href="<?= base_url('admin') ?>">Usuarios</a></li>
 						<li class="nav-item"><a class="nav-link" href="<?= base_url('admin/login/deslogar') ?>">Sair</a></li>
 					</ul>

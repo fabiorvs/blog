@@ -49,13 +49,19 @@ $routes->group("admin", ["filter" => "routeFilter"], function ($routes) {
     $routes->add('postagem/editar', 'Admin/Postagem::editar');
     $routes->add('postagem/salvar', 'Admin/Postagem::salvar');
     $routes->add('postagem/excluir', 'Admin/Postagem::excluir');
-    
+
 
     $routes->add('pagina', 'Admin/Pagina::index');
     $routes->add('pagina/novo', 'Admin/Pagina::novo');
     $routes->add('pagina/editar', 'Admin/Pagina::editar');
     $routes->add('pagina/salvar', 'Admin/Pagina::salvar');
     $routes->add('pagina/excluir', 'Admin/Pagina::excluir');
+
+    $routes->add('categoria', 'Admin/Categoria::index');
+    $routes->add('categoria/novo', 'Admin/Categoria::novo');
+    $routes->add('categoria/editar', 'Admin/Categoria::editar');
+    $routes->add('categoria/salvar', 'Admin/Categoria::salvar');
+    $routes->add('categoria/excluir', 'Admin/Categoria::excluir');
 });
 /*
  * --------------------------------------------------------------------

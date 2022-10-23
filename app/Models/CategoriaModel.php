@@ -15,10 +15,11 @@ class CategoriaModel extends Model
     protected $useSoftDeletes   = true;
     protected $protectFields    = true;
     protected $allowedFields    = [
-                                    'id',
-                                    'nome',
-                                    'slug'
-                                ];
+        'id',
+        'nome',
+        'slug',
+        'deleted_at'
+    ];
 
     // Dates
     protected $useTimestamps = false;
@@ -46,7 +47,8 @@ class CategoriaModel extends Model
 
     public function get_categorias()
     {
-        return $this->findAll();
+        return $this->select('id,nome')
+            ->orderBy('id', 'asc');
     }
 
     public function get_id_categoria($slug)
@@ -54,6 +56,14 @@ class CategoriaModel extends Model
         return $this
             ->select('id')
             ->where('slug', $slug)
+            ->first();
+    }
+
+    public function get_categoria_id($id)
+    {
+        return $this
+            ->select('id,nome')
+            ->where('id', $id)
             ->first();
     }
 }
