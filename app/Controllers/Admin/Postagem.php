@@ -55,12 +55,12 @@ class Postagem extends BaseController
 
             $validationRule = [
                 'imagem' => [
-                    'label' => 'Image File',
-                    'rules' => 'uploaded[imagem]'
-                        . '|is_image[imagem]'
-                        . '|mime_in[imagem,image/jpg,image/jpeg,image/gif,image/png,image/webp]'
-                        . '|max_size[imagem,10000]'
-                        . '|max_dims[imagem,3000,3000]',
+                    'rules' => 'uploaded[imagem]|max_size[imagem,5120]|is_image[imagem]',
+                    'errors' => [
+                        'uploaded' => 'Por favor, selecione uma imagem para carregar.',
+                        'max_size' => 'O tamanho máximo permitido para a imagem é de 5 MB.',
+                        'is_image' => 'O arquivo selecionado não é uma imagem válida.',
+                    ],
                 ],
             ];
             if (!$this->validate($validationRule)) {

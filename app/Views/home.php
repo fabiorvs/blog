@@ -6,7 +6,7 @@
 <div class="card mb-4">
     <a href="<?= base_url('post/' . $featured_post['slug']) ?>"><img class="card-img-top" src="<?= base_url('uploads/'.$featured_post['img']) ?>" alt="..." /></a>
     <div class="card-body">
-        <div class="small text-muted"><?= $featured_post['created_at'] ?></div>
+        <div class="small text-muted"><?= isset($featured_post['created_at']) ? (new DateTime($featured_post['created_at']))->format('d/m/Y') : '' ?></div>
         <h2 class="card-title"><?= $featured_post['titulo'] ?></h2>
         <p class="card-text"><?= $featured_post['subtitulo'] ?></p>
         <p class="badge bg-secondary text-decoration-none link-light"><?= $featured_post['nome_categoria'] ?></p>
@@ -24,7 +24,7 @@
                 <div class="card mb-4">
                     <a href="<?= base_url('post/' . $post['slug']) ?>"><img class="card-img-top" src="<?= base_url('uploads/'.$post['img']) ?>" alt="..." /></a>
                     <div class="card-body">
-                        <div class="small text-muted"><?= $post['created_at'] ?></div>
+                        <div class="small text-muted"><?= isset($post['created_at']) ? (new DateTime($post['created_at']))->format('d/m/Y') : '' ?></div>
                         <h2 class="card-title h4"><?= $post['titulo'] ?></h2>
                         <p class="badge bg-secondary text-decoration-none link-light"><?= $post['nome_categoria'] ?></p>
                         <p class="card-text"><?= $post['subtitulo'] ?></p>
