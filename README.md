@@ -1,56 +1,57 @@
-# CodeIgniter 4 Framework
-
-## What is CodeIgniter?
-
-CodeIgniter is a PHP full-stack web framework that is light, fast, flexible and secure.
-More information can be found at the [official site](http://codeigniter.com).
-
-This repository holds the distributable version of the framework,
-including the user guide. It has been built from the
-[development repository](https://github.com/codeigniter4/CodeIgniter4).
-
-More information about the plans for version 4 can be found in [the announcement](http://forum.codeigniter.com/thread-62615.html) on the forums.
-
-The user guide corresponding to this version of the framework can be found
-[here](https://codeigniter4.github.io/userguide/).
+# Blog
 
 
-## Important Change with index.php
 
-`index.php` is no longer in the root of the project! It has been moved inside the *public* folder,
-for better security and separation of components.
 
-This means that you should configure your web server to "point" to your project's *public* folder, and
-not to the project root. A better practice would be to configure a virtual host to point there. A poor practice would be to point your web server to the project root and expect to enter *public/...*, as the rest of your logic and the
-framework are exposed.
 
-**Please** read the user guide for a better explanation of how CI4 works!
 
-## Repository Management
+## Funcionalidades
 
-We use GitHub issues, in our main repository, to track **BUGS** and to track approved **DEVELOPMENT** work packages.
-We use our [forum](http://forum.codeigniter.com) to provide SUPPORT and to discuss
-FEATURE REQUESTS.
+- **Postagens de Blog:** Criação, edição e exclusão de postagens.
+- **Páginas:** Criação, edição e exclusão de páginas.
+- **Sistema de Comentários:** Os usuários podem comentar nas postagens e interagir com o conteúdo.
+- **Autenticação de Usuários:** Sistema de login e registro para autores e leitores.
+- **Painel de Administração:** Interface para gerenciar postagens, comentários e usuários.
+## Tecnologias Utilizadas
 
-This repository is a "distribution" one, built by our release preparation script.
-Problems with it can be raised on our forum, or as issues in the main repository.
+- **CodeIgniter 4:** Framework principal usado para desenvolver o blog.
+- **PHP:** Linguagem de programação backend.
+- **MySQL:** Banco de dados para armazenar postagens, comentários e informações de usuários.
+- **HTML, CSS e JavaScript:** Tecnologias frontend para criar a interface do usuário.
+- **Bootstrap:** Framework CSS para estilização e responsividade.
+## Instalação
 
-## Contributing
+**Clone o repositório:**
+```bash
+   git clone https://github.com/fabiorvs/blog.git
+```
 
-We welcome contributions from the community.
+**Instale as dependências:**
+```bash
+   composer install
+```
 
-Please read the [*Contributing to CodeIgniter*](https://github.com/codeigniter4/CodeIgniter4/blob/develop/CONTRIBUTING.md) section in the development repository.
+**Execute as migrações:**
+```bash
+   php spark migrate
+```
 
-## Server Requirements
+**Inicie o servidor:**
+```bash
+   php spark serve
+```
+## Variáveis de Ambiente
 
-PHP version 7.3 or higher is required, with the following extensions installed:
+Para rodar esse projeto, você vai precisar adicionar as seguintes variáveis de ambiente no seu .env
 
-- [intl](http://php.net/manual/en/intl.requirements.php)
-- [libcurl](http://php.net/manual/en/curl.requirements.php) if you plan to use the HTTP\CURLRequest library
+PAGINATION - Quantidade de posts exibidos.
 
-Additionally, make sure that the following extensions are enabled in your PHP:
 
-- json (enabled by default - don't turn it off)
-- [mbstring](http://php.net/manual/en/mbstring.installation.php)
-- [mysqlnd](http://php.net/manual/en/mysqlnd.install.php)
-- xml (enabled by default - don't turn it off)
+## Contribuindo
+
+Este é um projeto de estudo, mas contribuições são bem-vindas! Sinta-se à vontade para abrir issues e pull requests no repositório.
+
+## Licença
+
+[MIT](https://choosealicense.com/licenses/mit/)
+
