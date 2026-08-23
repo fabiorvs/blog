@@ -38,6 +38,7 @@ class Postagem extends BaseController
             'categoria' => (int) $this->request->getPost('categoria'),
             'slug' => trim((string) $this->request->getPost('slug')),
             'conteudo' => (string) $this->request->getPost('conteudo'),
+            'exibir_capa' => $this->request->getPost('exibir_capa') ? 1 : 0,
             'usuario' => (int) session()->get('id'),
         ];
 

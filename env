@@ -38,6 +38,9 @@ database.default.DBDriver = MySQLi
 database.default.DBPrefix =
 database.default.port = 3306
 
+# Quantidade de itens exibidos por página no blog e no painel.
+PAGINATION = 6
+
 # database.tests.hostname = localhost
 # database.tests.database = ci4_test
 # database.tests.username = root

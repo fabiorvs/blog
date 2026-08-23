@@ -32,7 +32,7 @@ O objetivo é oferecer o essencial para publicação de conteúdo sem depender d
 
 ## Requisitos
 
-- PHP 8.0 ou superior;
+- PHP 8.1 ou superior;
 - extensões PHP `curl`, `intl`, `json`, `mbstring`, `mysqli` e `fileinfo`;
 - MySQL 5.7+, MariaDB 10.3+ ou equivalente;
 - Composer 2.
@@ -66,7 +66,7 @@ database.default.password = sua_senha
 database.default.DBDriver = MySQLi
 database.default.port = 3306
 
-PAGINATION = 10
+PAGINATION = 6
 ```
 
 Crie o banco informado no `.env` e execute as migrações:
@@ -87,6 +87,14 @@ Opcionalmente, carregue as dez postagens demonstrativas e a página biográfica:
 php spark db:seed BlogDemoSeeder
 php spark db:seed MestreCamisaPageSeeder
 ```
+
+Para importar o conteúdo preservado do antigo site da ABADÁ São Paulo, incluindo as 15 postagens na categoria **Eventos** e a página **Sobre**, execute:
+
+```bash
+php spark db:seed LegacySiteSeeder
+```
+
+O importador utiliza o CSV versionado em `app/Database/Data`, mantém as datas originais e usa a primeira imagem de cada publicação como capa. Copie os arquivos do antigo diretório de uploads para `public/uploads`, preservando seus nomes originais.
 
 Inicie o servidor de desenvolvimento:
 

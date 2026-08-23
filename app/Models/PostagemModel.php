@@ -21,6 +21,7 @@ class PostagemModel extends Model
         'conteudo',
         'slug',
         'img',
+        'exibir_capa',
         'usuario',
         'situacao',
         'created_at',

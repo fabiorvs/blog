@@ -8,7 +8,7 @@ $heroOpacity = max(0.55, min(0.98, (float) $theme['hero_background_opacity']));
 ?>
 <section class="home-hero<?= $hasHeroBackground ? ' home-hero--background' : '' ?>"<?php if ($hasHeroBackground) : ?> style="background-image:linear-gradient(rgba(255,255,255,<?= $heroOpacity ?>),rgba(255,255,255,<?= $heroOpacity ?>)),url('<?= esc(base_url($theme['hero_background_path']), 'attr') ?>')"<?php endif ?>><div class="container"><div class="home-hero__grid">
     <div class="home-hero__content"><span class="eyebrow"><?= esc($theme['hero_label']) ?></span><h1><?= esc($theme['site_tagline']) ?></h1><p><?= esc($theme['site_description']) ?></p><a class="button button--primary" href="<?= base_url('post/' . $featured_post['slug']) ?>"><?= esc($theme['hero_button']) ?> <span>→</span></a></div>
-    <a class="home-hero__media" href="<?= base_url('post/' . $featured_post['slug']) ?>"><img src="<?= base_url('uploads/' . $featured_post['img']) ?>" alt="Capa: <?= esc($featured_post['titulo'], 'attr') ?>"><span class="home-hero__caption"><strong><?= esc($featured_post['titulo']) ?></strong><small><?= esc($featured_post['nome_categoria']) ?></small></span></a>
+    <a class="home-hero__media" href="<?= base_url('post/' . $featured_post['slug']) ?>"><img class="js-featured-cover" src="<?= base_url('uploads/' . $featured_post['img']) ?>" alt="Capa: <?= esc($featured_post['titulo'], 'attr') ?>"><span class="home-hero__caption"><strong><?= esc($featured_post['titulo']) ?></strong><small><?= esc($featured_post['nome_categoria']) ?></small></span></a>
 </div></div></section>
 <?php endif ?>
 
@@ -29,4 +29,7 @@ $heroOpacity = max(0.55, min(0.98, (float) $theme['hero_background_opacity']));
         <section class="newsletter" aria-labelledby="newsletter-title"><div class="newsletter__icon">✉</div><div><h2 id="newsletter-title"><?= esc($theme['newsletter_title']) ?></h2><p><?= esc($theme['newsletter_text']) ?></p></div><div class="newsletter__form"><input type="email" placeholder="Seu melhor e-mail" aria-label="Seu melhor e-mail"><button type="button">Assinar newsletter</button></div></section>
     <?php endif ?>
 </div>
+<?= $this->endSection() ?>
+<?= $this->section('scripts') ?>
+<script>document.querySelectorAll('.js-featured-cover').forEach(function(image){function adjust(){image.parentElement.classList.toggle('home-hero__media--portrait',image.naturalHeight>image.naturalWidth*1.12)}image.complete?adjust():image.addEventListener('load',adjust,{once:true})});</script>
 <?= $this->endSection() ?>

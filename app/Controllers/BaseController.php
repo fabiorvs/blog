@@ -54,6 +54,6 @@ class BaseController extends Controller
     {
         $configured = (int) getenv('PAGINATION');
 
-        return $configured > 0 ? min($configured, 100) : 10;
+        return $configured > 0 ? min($configured, 100) : 6;
     }
 }
