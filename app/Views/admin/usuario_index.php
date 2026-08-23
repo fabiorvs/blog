@@ -1,0 +1,8 @@
+<?= $this->extend('admin/layout') ?>
+<?= $this->section('conteudo') ?>
+<div class="admin-page-header"><div><h1>Usuários</h1><p>Gerencie as pessoas que podem acessar o painel.</p></div><a class="admin-btn admin-btn--primary" href="<?= base_url('admin/usuario/novo') ?>"><svg class="admin-icon"><use href="#icon-plus"/></svg>Novo usuário</a></div>
+<section class="admin-card"><div class="admin-table-wrap"><table class="admin-table"><thead><tr><th>ID</th><th>Usuário</th><th>Cadastro</th><th class="text-end">Ações</th></tr></thead><tbody>
+<?php foreach ($usuarios as $usuario) : ?><tr><td>#<?= $usuario['id'] ?></td><td><div class="admin-table__title"><?= esc($usuario['nome']) ?><?= (int) $usuario['id'] === (int) session('id') ? ' <span class="badge bg-success">Você</span>' : '' ?></div><div class="admin-table__meta"><?= esc($usuario['email']) ?></div></td><td><?= data_hora_br($usuario['created_at']) ?></td><td><div class="admin-actions"><a class="admin-btn admin-btn--secondary" href="<?= base_url('admin/usuario/editar/' . $usuario['id']) ?>">Editar</a><?php if ((int) $usuario['id'] !== (int) session('id')) : ?><form action="<?= base_url('admin/usuario/excluir/' . $usuario['id']) ?>" method="post"><?= csrf_field() ?><button class="admin-btn admin-btn--danger" type="submit" onclick="return confirm('Excluir este usuário?')">Excluir</button></form><?php endif ?></div></td></tr><?php endforeach ?>
+<?php if (empty($usuarios)) : ?><tr><td colspan="4" class="admin-empty">Nenhum usuário cadastrado.</td></tr><?php endif ?>
+</tbody></table></div></section><?php if ($pager) : ?><div class="mt-4"><?= $pager->links('default', 'bootstrap_pagination') ?></div><?php endif ?>
+<?= $this->endSection() ?>

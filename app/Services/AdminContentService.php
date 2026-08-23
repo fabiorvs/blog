@@ -5,21 +5,25 @@ namespace App\Services;
 use App\Models\CategoriaModel;
 use App\Models\PaginaModel;
 use App\Models\PostagemModel;
+use App\Models\UsuarioModel;
 
 class AdminContentService
 {
     private PostagemModel $postagens;
     private CategoriaModel $categorias;
     private PaginaModel $paginas;
+    private UsuarioModel $usuarios;
 
     public function __construct(
         ?PostagemModel $postagens = null,
         ?CategoriaModel $categorias = null,
-        ?PaginaModel $paginas = null
+        ?PaginaModel $paginas = null,
+        ?UsuarioModel $usuarios = null
     ) {
         $this->postagens = $postagens ?? new PostagemModel();
         $this->categorias = $categorias ?? new CategoriaModel();
         $this->paginas = $paginas ?? new PaginaModel();
+        $this->usuarios = $usuarios ?? new UsuarioModel();
     }
 
     public function posts(int $perPage): array
@@ -33,6 +37,7 @@ class AdminContentService
             'totalPosts' => $this->postagens->where('id >', 0)->countAllResults(),
             'totalCategories' => $this->categorias->where('id >', 0)->countAllResults(),
             'totalPages' => $this->paginas->where('id >', 0)->countAllResults(),
+            'totalUsers' => $this->usuarios->where('id >', 0)->countAllResults(),
             'recentPosts' => $this->postagens->get_posts()->findAll(5),
         ];
     }

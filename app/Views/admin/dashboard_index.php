@@ -2,7 +2,7 @@
 <?= $this->section('conteudo') ?>
 <div class="admin-page-header"><div><h1>Visão geral</h1><p>Acompanhe e gerencie o conteúdo publicado.</p></div><a class="admin-btn admin-btn--primary" href="<?= base_url('admin/postagem/novo') ?>"><svg class="admin-icon"><use href="#icon-plus"/></svg>Nova postagem</a></div>
 <div class="admin-stat-grid">
-    <?php foreach ([[$totalPosts, 'Postagens publicadas', 'icon-posts'], [$totalPages, 'Páginas institucionais', 'icon-page'], [$totalCategories, 'Categorias ativas', 'icon-category']] as [$value, $label, $icon]) : ?>
+    <?php foreach ([[$totalPosts, 'Postagens publicadas', 'icon-posts'], [$totalPages, 'Páginas institucionais', 'icon-page'], [$totalCategories, 'Categorias ativas', 'icon-category'], [$totalUsers, 'Usuários ativos', 'icon-users']] as [$value, $label, $icon]) : ?>
         <div class="admin-card admin-stat"><div><div class="admin-stat__value"><?= $value ?></div><div class="admin-stat__label"><?= $label ?></div></div><span class="admin-stat__icon"><svg class="admin-icon"><use href="#<?= $icon ?>"/></svg></span></div>
     <?php endforeach ?>
 </div>

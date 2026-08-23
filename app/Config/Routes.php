@@ -52,6 +52,9 @@ $routes->post('admin/pagina/excluir/(:num)', 'Admin\Pagina::excluir/$1', $protec
 $routes->get('admin/categoria/editar/(:num)', 'Admin\Categoria::editar/$1', $protected);
 $routes->post('admin/categoria/salvar/(:num)', 'Admin\Categoria::salvar/$1', $protected);
 $routes->post('admin/categoria/excluir/(:num)', 'Admin\Categoria::excluir/$1', $protected);
+$routes->get('admin/usuario/editar/(:num)', 'Admin\Usuario::editar/$1', $protected);
+$routes->post('admin/usuario/salvar/(:num)', 'Admin\Usuario::salvar/$1', $protected);
+$routes->post('admin/usuario/excluir/(:num)', 'Admin\Usuario::excluir/$1', $protected);
 
 
 
@@ -77,6 +80,12 @@ $routes->group("admin", ["filter" => "routeFilter"], function ($routes) {
         $routes->get('/', 'Admin/Categoria::index');
         $routes->get('novo', 'Admin/Categoria::novo');
         $routes->post('salvar', 'Admin/Categoria::salvar');
+    });
+
+    $routes->group("usuario", function ($routes) {
+        $routes->get('/', 'Admin/Usuario::index');
+        $routes->get('novo', 'Admin/Usuario::novo');
+        $routes->post('salvar', 'Admin/Usuario::salvar');
     });
 });
 /*

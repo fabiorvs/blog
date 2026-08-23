@@ -17,6 +17,7 @@ class UsuarioModel extends Model
     protected $allowedFields    = [
         'nome',
         'email',
+        'login',
         'senha',
         'deleted_at'
     ];
@@ -49,5 +50,20 @@ class UsuarioModel extends Model
     {
         return $this->where('email', $email)
             ->first();
+    }
+
+    public function get_usuarios()
+    {
+        return $this->select('id, nome, email, created_at, updated_at')
+            ->orderBy('nome', 'ASC');
+    }
+
+    public function emailExists(string $email, ?int $exceptId = null): bool
+    {
+        $builder = db_connect($this->DBGroup)->table($this->table)
+            ->where('email', $email)
+            ->where($this->deletedField, null);
+        if ($exceptId !== null) { $builder->where('id !=', $exceptId); }
+        return $builder->countAllResults() > 0;
     }
 }
