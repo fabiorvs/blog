@@ -21,7 +21,7 @@ class Aparencia extends BaseController
     {
         return view('admin/aparencia', [
             'theme' => $this->theme->settings(),
-            'posts' => $this->posts->select('id, titulo')->orderBy('created_at', 'DESC')->findAll(),
+            'posts' => $this->posts->select('id, titulo')->where('situacao', 'publicado')->orderBy('created_at', 'DESC')->findAll(),
         ]);
     }
 

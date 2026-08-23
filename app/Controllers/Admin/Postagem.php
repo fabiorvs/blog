@@ -4,6 +4,7 @@ namespace App\Controllers\Admin;
 
 use App\Controllers\BaseController;
 use App\Services\AdminContentService;
+use App\Services\ContentStatus;
 use CodeIgniter\Exceptions\PageNotFoundException;
 
 class Postagem extends BaseController
@@ -39,6 +40,7 @@ class Postagem extends BaseController
             'slug' => trim((string) $this->request->getPost('slug')),
             'conteudo' => (string) $this->request->getPost('conteudo'),
             'exibir_capa' => $this->request->getPost('exibir_capa') ? 1 : 0,
+            'situacao' => ContentStatus::normalize($this->request->getPost('situacao')),
             'usuario' => (int) session()->get('id'),
         ];
 

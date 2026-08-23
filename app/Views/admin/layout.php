@@ -11,6 +11,7 @@
     <link href="<?= base_url('assets/css/styles.css') ?>" rel="stylesheet">
     <link href="<?= base_url('assets/css/admin.css?v=' . filemtime(FCPATH . 'assets/css/admin.css')) ?>" rel="stylesheet">
     <link href="<?= base_url('assets/css/admin-analytics.css?v=' . filemtime(FCPATH . 'assets/css/admin-analytics.css')) ?>" rel="stylesheet">
+    <link href="<?= base_url('assets/css/admin-content.css?v=' . filemtime(FCPATH . 'assets/css/admin-content.css')) ?>" rel="stylesheet">
     <?= $this->renderSection('css') ?>
 </head>
 <body class="admin-body">

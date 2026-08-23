@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Services\BlogService;
+use App\Services\ContentStatus;
 use CodeIgniter\Exceptions\PageNotFoundException;
 
 class Pagina extends BaseController
@@ -17,10 +18,10 @@ class Pagina extends BaseController
     public function index($slug)
     {
         $pagina = $this->blog->page($slug);
-        if ($pagina === null) {
+        if ($pagina === null || ContentStatus::normalize($pagina['situacao'] ?? null) === ContentStatus::DRAFT) {
             throw PageNotFoundException::forPageNotFound('Página não encontrada.');
         }
 
-        return view('pagina', ['pagina' => $pagina]);
+        return view('pagina', ['pagina' => $pagina, 'underReview' => ContentStatus::isReview($pagina['situacao'] ?? null)]);
     }
 }

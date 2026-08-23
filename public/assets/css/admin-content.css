@@ -1,0 +1,22 @@
+.content-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 10px;
+    border-radius: 999px;
+    font-size: .72rem;
+    font-weight: 750;
+    white-space: nowrap;
+}
+
+.content-status::before {
+    content: "";
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: currentColor;
+}
+
+.content-status--publicado { color: #176b4d; background: #e7f4ed; }
+.content-status--rascunho { color: #68736d; background: #edf0ee; }
+.content-status--aprovacao { color: #9a5b16; background: #fff2dc; }

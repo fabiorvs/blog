@@ -34,9 +34,9 @@ class AdminContentService
     public function dashboard(): array
     {
         return [
-            'totalPosts' => $this->postagens->where('id >', 0)->countAllResults(),
+            'totalPosts' => $this->postagens->where('situacao', ContentStatus::PUBLISHED)->countAllResults(),
             'totalCategories' => $this->categorias->where('id >', 0)->countAllResults(),
-            'totalPages' => $this->paginas->where('id >', 0)->countAllResults(),
+            'totalPages' => $this->paginas->where('situacao', ContentStatus::PUBLISHED)->countAllResults(),
             'totalUsers' => $this->usuarios->where('id >', 0)->countAllResults(),
             'recentPosts' => $this->postagens->get_posts()->findAll(5),
         ];

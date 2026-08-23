@@ -4,6 +4,7 @@ namespace App\Controllers\Admin;
 
 use App\Controllers\BaseController;
 use App\Services\AdminContentService;
+use App\Services\ContentStatus;
 use CodeIgniter\Exceptions\PageNotFoundException;
 
 class Pagina extends BaseController
@@ -33,6 +34,7 @@ class Pagina extends BaseController
             'titulo' => trim((string) $this->request->getPost('titulo')),
             'slug' => trim((string) $this->request->getPost('slug')),
             'conteudo' => (string) $this->request->getPost('conteudo'),
+            'situacao' => ContentStatus::normalize($this->request->getPost('situacao')),
             'usuario' => (int) session()->get('id'),
         ];
         if ($dados['nome'] === '' || $dados['titulo'] === '' || trim($dados['conteudo']) === '') {

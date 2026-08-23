@@ -62,12 +62,27 @@ class PostagemModel extends Model
             ->first();
     }
 
+    public function get_last_published_post()
+    {
+        return $this->select('categorias.nome AS nome_categoria, categorias.slug AS slug_categoria, usuarios.nome AS nome_usuario, postagens.*')
+            ->join('categorias', 'postagens.categoria = categorias.id')
+            ->join('usuarios', 'postagens.usuario = usuarios.id')
+            ->where('postagens.situacao', 'publicado')
+            ->orderBy('created_at', 'desc')
+            ->first();
+    }
+
     public function get_posts()
     {
         return $this->select('categorias.nome AS nome_categoria, categorias.slug AS slug_categoria, usuarios.nome AS nome_usuario, postagens.*')
             ->join('categorias', 'postagens.categoria = categorias.id')
             ->join('usuarios', 'postagens.usuario = usuarios.id')
             ->orderBy('created_at', 'desc');
+    }
+
+    public function get_published_posts()
+    {
+        return $this->get_posts()->where('postagens.situacao', 'publicado');
     }
 
     public function get_posts_categoria($id_categoria)
@@ -77,6 +92,11 @@ class PostagemModel extends Model
             ->join('usuarios', 'postagens.usuario = usuarios.id')
             ->where('categoria', $id_categoria)
             ->orderBy('created_at', 'desc');
+    }
+
+    public function get_published_posts_categoria($id_categoria)
+    {
+        return $this->get_posts_categoria($id_categoria)->where('postagens.situacao', 'publicado');
     }
 
     public function get_post_slug($slug)
@@ -120,6 +140,19 @@ class PostagemModel extends Model
             ->join('usuarios', 'postagens.usuario = usuarios.id')
             ->like('postagens.titulo', $pesquisa)
             ->orLike('postagens.conteudo', $pesquisa)
+            ->orderBy('created_at', 'desc');
+    }
+
+    public function get_published_post_pesquisa($pesquisa)
+    {
+        return $this->select('categorias.nome AS nome_categoria, categorias.slug AS slug_categoria, usuarios.nome AS nome_usuario, postagens.*')
+            ->join('categorias', 'postagens.categoria = categorias.id')
+            ->join('usuarios', 'postagens.usuario = usuarios.id')
+            ->where('postagens.situacao', 'publicado')
+            ->groupStart()
+                ->like('postagens.titulo', $pesquisa)
+                ->orLike('postagens.conteudo', $pesquisa)
+            ->groupEnd()
             ->orderBy('created_at', 'desc');
     }
 }

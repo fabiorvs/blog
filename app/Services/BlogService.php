@@ -29,10 +29,14 @@ class BlogService
     {
         $theme = $this->theme->settings();
         $featuredId = (int) $theme['featured_post_id'];
+        $featured = $featuredId > 0 ? $this->postagens->get_post_id($featuredId) : null;
+        if ($featured === null || ! ContentStatus::isPubliclyListed($featured['situacao'] ?? null)) {
+            $featured = $this->postagens->get_last_published_post();
+        }
 
         return [
-            'featured_post' => $featuredId > 0 ? $this->postagens->get_post_id($featuredId) : $this->postagens->get_last_post(),
-            'posts' => $this->postagens->get_posts()->paginate($perPage),
+            'featured_post' => $featured,
+            'posts' => $this->postagens->get_published_posts()->paginate($perPage),
             'pager' => $this->postagens->pager,
             'categorias' => $this->categorias->get_categorias_menu(),
             'theme' => $theme,
@@ -47,7 +51,7 @@ class BlogService
         }
 
         return [
-            'posts' => $this->postagens->get_posts_categoria($categoria['id'])->paginate($perPage),
+            'posts' => $this->postagens->get_published_posts_categoria($categoria['id'])->paginate($perPage),
             'pager' => $this->postagens->pager,
             'slug' => $slug,
         ];
@@ -56,7 +60,7 @@ class BlogService
     public function search(string $term, int $perPage): array
     {
         return [
-            'posts' => $this->postagens->get_post_pesquisa($term)->paginate($perPage),
+            'posts' => $this->postagens->get_published_post_pesquisa($term)->paginate($perPage),
             'pager' => $this->postagens->pager,
             'pesquisa' => $term,
         ];

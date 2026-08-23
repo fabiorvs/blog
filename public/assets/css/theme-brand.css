@@ -49,6 +49,22 @@
     align-self: center;
 }
 
+.content-review-notice {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    margin: 0 0 32px;
+    padding: 18px 20px;
+    color: #774510;
+    background: #fff2dc;
+    border: 1px solid #efd5ad;
+    border-left: 5px solid #d28a32;
+    border-radius: 10px;
+}
+
+.content-review-notice strong { font-size: .95rem; }
+.content-review-notice span { font-size: .86rem; line-height: 1.5; }
+
 @media (max-width: 991px) {
     .home-hero__logo {
         max-width: 270px;

@@ -20,6 +20,7 @@ class PaginaModel extends Model
         'conteudo',
         'slug',
         'usuario',
+        'situacao',
         'deleted_at'
     ];
 
@@ -55,7 +56,8 @@ class PaginaModel extends Model
 
     public function get_all_paginas()
     {
-        return $this->orderBy('nome', 'asc')
+        return $this->where('situacao', 'publicado')
+            ->orderBy('nome', 'asc')
             ->findAll();
     }
 

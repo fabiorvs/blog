@@ -1,6 +1,8 @@
 <?= $this->extend('layout') ?>
+<?php if ($underReview ?? false) : ?><?= $this->section('meta') ?><meta name="robots" content="noindex,nofollow"><?= $this->endSection() ?><?php endif ?>
 <?= $this->section('conteudo') ?>
 <article class="post-shell">
+    <?php if ($underReview ?? false) : ?><div class="content-review-notice" role="status"><strong>Conteúdo em fase de aprovação</strong><span>Esta postagem ainda não está publicada e só pode ser visualizada por meio do link direto.</span></div><?php endif ?>
     <a class="eyebrow text-decoration-none" href="<?= base_url('categoria/' . $post['slug_categoria']) ?>"><?= esc($post['nome_categoria']) ?></a>
     <h1><?= esc($post['titulo']) ?></h1>
     <p class="text-muted mt-3">Publicado em <?= data_hora_br($post['created_at']) ?> por <?= esc($post['nome_usuario']) ?></p>
