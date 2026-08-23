@@ -11,6 +11,7 @@
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Libre+Franklin:wght@400;500;600&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
     <link href="<?= base_url('assets/css/styles.css') ?>" rel="stylesheet">
     <link href="<?= base_url('assets/css/theme.css') ?>" rel="stylesheet">
+    <link href="<?= base_url('assets/css/theme-brand.css?v=' . filemtime(FCPATH . 'assets/css/theme-brand.css')) ?>" rel="stylesheet">
     <link rel="stylesheet" href="<?= base_url('assets/high/styles/codepen-embed.min.css') ?>">
     <style>:root{--theme-primary:<?= esc($theme['primary_color']) ?>;--theme-accent:<?= esc($theme['accent_color']) ?>;--theme-bg:<?= esc($theme['background_color']) ?>;--theme-text:<?= esc($theme['text_color']) ?>}</style>
     <?= $this->renderSection('estilos') ?>
@@ -19,11 +20,7 @@
     <header class="site-header">
         <div class="container site-header__inner">
             <a class="site-brand" href="<?= base_url() ?>" aria-label="<?= esc($theme['site_name'], 'attr') ?>">
-                <?php if ($theme['logo_path'] !== '') : ?>
-                    <img class="site-brand__logo" src="<?= base_url($theme['logo_path']) ?>" alt="<?= esc($theme['site_name'], 'attr') ?>">
-                <?php else : ?>
-                    <?= esc($theme['site_name']) ?>
-                <?php endif ?>
+                <?= esc($theme['site_name']) ?>
             </a>
             <button class="site-menu-toggle" type="button" data-bs-toggle="collapse" data-bs-target="#siteNavigation" aria-controls="siteNavigation" aria-expanded="false" aria-label="Abrir menu">☰</button>
             <nav class="collapse site-navigation" id="siteNavigation" aria-label="Navegação principal"><a href="<?= base_url() ?>">Início</a><?php menu_paginas() ?></nav>

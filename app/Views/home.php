@@ -7,8 +7,12 @@ $hasHeroBackground = $theme['hero_background_path'] !== '';
 $heroOpacity = max(0.55, min(0.98, (float) $theme['hero_background_opacity']));
 ?>
 <section class="home-hero<?= $hasHeroBackground ? ' home-hero--background' : '' ?>"<?php if ($hasHeroBackground) : ?> style="background-image:linear-gradient(rgba(255,255,255,<?= $heroOpacity ?>),rgba(255,255,255,<?= $heroOpacity ?>)),url('<?= esc(base_url($theme['hero_background_path']), 'attr') ?>')"<?php endif ?>><div class="container"><div class="home-hero__grid">
-    <div class="home-hero__content"><span class="eyebrow"><?= esc($theme['hero_label']) ?></span><h1><?= esc($theme['site_tagline']) ?></h1><p><?= esc($theme['site_description']) ?></p><a class="button button--primary" href="<?= base_url('post/' . $featured_post['slug']) ?>"><?= esc($theme['hero_button']) ?> <span>→</span></a></div>
-    <a class="home-hero__media" href="<?= base_url('post/' . $featured_post['slug']) ?>"><img class="js-featured-cover" src="<?= base_url('uploads/' . $featured_post['img']) ?>" alt="Capa: <?= esc($featured_post['titulo'], 'attr') ?>"><span class="home-hero__caption"><strong><?= esc($featured_post['titulo']) ?></strong><small><?= esc($featured_post['nome_categoria']) ?></small></span></a>
+    <div class="home-hero__content"><?php if ($theme['logo_path'] !== '') : ?><img class="home-hero__logo" src="<?= base_url($theme['logo_path']) ?>" alt="<?= esc($theme['site_name'], 'attr') ?>"><?php endif ?><h1><?= esc($theme['site_tagline']) ?></h1><p><?= esc($theme['site_description']) ?></p></div>
+    <div class="home-hero__featured">
+        <span class="eyebrow"><?= esc($theme['hero_label']) ?></span>
+        <a class="home-hero__media" href="<?= base_url('post/' . $featured_post['slug']) ?>"><img class="js-featured-cover" src="<?= base_url('uploads/' . $featured_post['img']) ?>" alt="Capa: <?= esc($featured_post['titulo'], 'attr') ?>"><span class="home-hero__caption"><strong><?= esc($featured_post['titulo']) ?></strong><small><?= esc($featured_post['nome_categoria']) ?></small></span></a>
+        <a class="button button--primary home-hero__button" href="<?= base_url('post/' . $featured_post['slug']) ?>"><?= esc($theme['hero_button']) ?> <span>→</span></a>
+    </div>
 </div></div></section>
 <?php endif ?>
 
