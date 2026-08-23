@@ -63,4 +63,13 @@ class Pagina extends BaseController
 
         return redirect()->back()->with('errors', ['Não foi possível excluir a página.']);
     }
+
+    public function ordenar()
+    {
+        if ($this->content->reorderPages((array) $this->request->getPost('ordem'))) {
+            return redirect()->to('/admin/pagina')->with('success', 'Ordem do menu atualizada com sucesso.');
+        }
+
+        return redirect()->to('/admin/pagina')->with('errors', ['Não foi possível atualizar a ordem do menu.']);
+    }
 }

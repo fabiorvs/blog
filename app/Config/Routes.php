@@ -49,6 +49,7 @@ $routes->post('admin/postagem/excluir/(:num)', 'Admin\Postagem::excluir/$1', $pr
 $routes->get('admin/pagina/editar/(:num)', 'Admin\Pagina::editar/$1', $protected);
 $routes->post('admin/pagina/salvar/(:num)', 'Admin\Pagina::salvar/$1', $protected);
 $routes->post('admin/pagina/excluir/(:num)', 'Admin\Pagina::excluir/$1', $protected);
+$routes->post('admin/pagina/ordenar', 'Admin\Pagina::ordenar', $protected);
 $routes->get('admin/categoria/editar/(:num)', 'Admin\Categoria::editar/$1', $protected);
 $routes->post('admin/categoria/salvar/(:num)', 'Admin\Categoria::salvar/$1', $protected);
 $routes->post('admin/categoria/excluir/(:num)', 'Admin\Categoria::excluir/$1', $protected);

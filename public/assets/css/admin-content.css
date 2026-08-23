@@ -20,3 +20,26 @@
 .content-status--publicado { color: #176b4d; background: #e7f4ed; }
 .content-status--rascunho { color: #68736d; background: #edf0ee; }
 .content-status--aprovacao { color: #9a5b16; background: #fff2dc; }
+
+.menu-order-card { margin-bottom: 24px; overflow: hidden; }
+.menu-order-card .admin-card__header p { margin: 4px 0 0; color: var(--admin-muted); font-size: .8rem; }
+.menu-order-list { margin: 0; padding: 10px 20px; list-style: none; counter-reset: menu-position; }
+.menu-order-item { counter-increment: menu-position; min-height: 62px; display: flex; align-items: center; gap: 13px; padding: 10px 4px; border-bottom: 1px solid var(--admin-border); }
+.menu-order-item:last-child { border-bottom: 0; }
+.menu-order-item__handle { color: #a4aea9; font-size: 1.15rem; letter-spacing: -4px; }
+.menu-order-item__position::before { content: counter(menu-position); }
+.menu-order-item__position { width: 28px; height: 28px; flex: 0 0 28px; display: grid; place-items: center; border-radius: 8px; color: var(--admin-primary); background: #edf5f1; font-size: .76rem; font-weight: 800; }
+.menu-order-item__name { min-width: 0; flex: 1; font-size: .86rem; font-weight: 700; }
+.menu-order-item__name small { display: block; overflow: hidden; color: var(--admin-muted); font-size: .72rem; font-weight: 500; text-overflow: ellipsis; white-space: nowrap; }
+.menu-order-item__actions { display: flex; gap: 5px; }
+.menu-order-item__actions button { width: 32px; height: 32px; border: 1px solid var(--admin-border); border-radius: 8px; color: var(--admin-text); background: #fff; font-weight: 800; }
+.menu-order-item__actions button:hover { color: var(--admin-primary); border-color: var(--admin-primary); background: #f4faf7; }
+.menu-order-footer { display: flex; align-items: center; justify-content: space-between; gap: 20px; padding: 16px 22px; border-top: 1px solid var(--admin-border); background: #fafcfb; }
+.menu-order-footer span { color: var(--admin-muted); font-size: .75rem; }
+
+@media (max-width: 640px) {
+    .menu-order-list { padding: 8px 12px; }
+    .menu-order-item { gap: 8px; }
+    .menu-order-item__handle, .menu-order-item .content-status { display: none; }
+    .menu-order-footer { align-items: stretch; flex-direction: column; }
+}

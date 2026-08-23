@@ -21,6 +21,7 @@ class PaginaModel extends Model
         'slug',
         'usuario',
         'situacao',
+        'ordem',
         'deleted_at'
     ];
 
@@ -51,12 +52,22 @@ class PaginaModel extends Model
     public function get_paginas()
     {
         return $this->select('paginas.*')
+            ->orderBy('ordem', 'asc')
             ->orderBy('created_at', 'desc');
+    }
+
+    public function get_pages_for_menu_order(): array
+    {
+        return $this->select('id, nome, titulo, situacao, ordem')
+            ->orderBy('ordem', 'asc')
+            ->orderBy('nome', 'asc')
+            ->findAll();
     }
 
     public function get_all_paginas()
     {
         return $this->where('situacao', 'publicado')
+            ->orderBy('ordem', 'asc')
             ->orderBy('nome', 'asc')
             ->findAll();
     }

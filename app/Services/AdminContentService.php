@@ -54,7 +54,11 @@ class AdminContentService
 
     public function paginatedPages(int $perPage): array
     {
-        return ['paginas' => $this->paginas->get_paginas()->paginate($perPage), 'pager' => $this->paginas->pager];
+        return [
+            'paginas' => $this->paginas->get_paginas()->paginate($perPage),
+            'pager' => $this->paginas->pager,
+            'menuPages' => $this->paginas->get_pages_for_menu_order(),
+        ];
     }
 
     public function savePost(array $data, ?int $id = null): bool
@@ -67,6 +71,10 @@ class AdminContentService
     public function savePage(array $data, ?int $id = null): bool
     {
         $data['slug'] = $this->slug($data['slug'] ?? '', $data['nome'], fn ($slug) => $this->paginas->slugExists($slug, $id));
+        if ($id === null) {
+            $maximum = db_connect()->table('paginas')->selectMax('ordem')->get()->getRowArray();
+            $data['ordem'] = ((int) ($maximum['ordem'] ?? 0)) + 1;
+        }
         if ($id !== null) { $data['id'] = $id; }
         return $this->paginas->save($data);
     }
@@ -82,9 +90,32 @@ class AdminContentService
     public function deletePage(int $id): bool { return (bool) $this->paginas->delete($id); }
     public function deleteCategory(int $id): bool { return (bool) $this->categorias->delete($id); }
 
+    public function reorderPages(array $ids): bool
+    {
+        $ids = array_values(array_unique(array_filter(array_map('intval', $ids), static fn (int $id): bool => $id > 0)));
+        if ($ids === []) {
+            return false;
+        }
+
+        $db = db_connect();
+        $existing = $db->table('paginas')->select('id')->whereIn('id', $ids)->where('deleted_at', null)->get()->getResultArray();
+        $total = $db->table('paginas')->where('deleted_at', null)->countAllResults();
+        if (count($existing) !== count($ids) || $total !== count($ids)) {
+            return false;
+        }
+
+        $db->transStart();
+        foreach ($ids as $position => $id) {
+            $db->table('paginas')->where('id', $id)->update(['ordem' => $position + 1]);
+        }
+        $db->transComplete();
+
+        return $db->transStatus();
+    }
+
     private function slug(string $provided, string $title, callable $exists): string
     {
-        $base = trim($provided) !== '' ? url_title($provided, '-', true) : url_title($title, '-', true);
+        $base = SlugService::make(trim($provided) !== '' ? $provided : $title);
         $slug = $base;
         $suffix = 2;
         while ($exists($slug)) { $slug = $base . '-' . $suffix++; }
