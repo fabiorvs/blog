@@ -62,6 +62,7 @@ $routes->group("admin", ["filter" => "routeFilter"], function ($routes) {
     $routes->get('/', 'Admin/Dashboard::index');
     $routes->post('login/deslogar', 'Admin/Login::deslogar');
     $routes->get('aparencia', 'Admin/Aparencia::index');
+    $routes->get('estatisticas', 'Admin/Estatisticas::index');
     $routes->post('aparencia', 'Admin/Aparencia::salvar');
 
     $routes->group("postagem",  function ($routes) {

@@ -19,6 +19,7 @@
     <symbol id="icon-page" viewBox="0 0 24 24"><path d="M6 3h8l4 4v14H6zM14 3v5h4M9 12h6M9 16h6"/></symbol>
     <symbol id="icon-category" viewBox="0 0 24 24"><path d="M4 7.5V4h3.5L19 15.5 15.5 19 4 7.5zM7 7h.01"/></symbol>
     <symbol id="icon-users" viewBox="0 0 24 24"><path d="M16 20v-1.5a4 4 0 0 0-4-4H7a4 4 0 0 0-4 4V20M9.5 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM16 4.2a4 4 0 0 1 0 7.6M17.5 14.7a4 4 0 0 1 3.5 3.8V20"/></symbol>
+    <symbol id="icon-chart" viewBox="0 0 24 24"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></symbol>
     <symbol id="icon-palette" viewBox="0 0 24 24"><path d="M12 3a9 9 0 1 0 0 18h1.2a1.8 1.8 0 0 0 0-3.6h-.7a1.5 1.5 0 0 1 0-3H15A6 6 0 0 0 12 3z"/><path d="M7.5 10h.01M9 6.8h.01M13 6h.01M16.5 8.5h.01"/></symbol>
     <symbol id="icon-external" viewBox="0 0 24 24"><path d="M14 5h5v5M19 5l-9 9M19 13v6H5V5h6"/></symbol>
     <symbol id="icon-logout" viewBox="0 0 24 24"><path d="M10 5H5v14h5M13 8l4 4-4 4M8 12h9"/></symbol>
@@ -34,6 +35,7 @@
             <a class="<?= $section === 'pagina' ? 'active' : '' ?>" href="<?= base_url('admin/pagina') ?>"><svg class="admin-nav__icon"><use href="#icon-page"/></svg>Páginas</a>
             <a class="<?= $section === 'categoria' ? 'active' : '' ?>" href="<?= base_url('admin/categoria') ?>"><svg class="admin-nav__icon"><use href="#icon-category"/></svg>Categorias</a>
             <a class="<?= $section === 'usuario' ? 'active' : '' ?>" href="<?= base_url('admin/usuario') ?>"><svg class="admin-nav__icon"><use href="#icon-users"/></svg>Usuários</a>
+            <a class="<?= $section === 'estatisticas' ? 'active' : '' ?>" href="<?= base_url('admin/estatisticas') ?>"><svg class="admin-nav__icon"><use href="#icon-chart"/></svg>Estatísticas</a>
         </nav>
         <div class="admin-nav-label mt-3">Personalização</div>
         <nav class="admin-nav"><a class="<?= $section === 'aparencia' ? 'active' : '' ?>" href="<?= base_url('admin/aparencia') ?>"><svg class="admin-nav__icon"><use href="#icon-palette"/></svg>Aparência</a><a href="<?= base_url() ?>" target="_blank" rel="noopener"><svg class="admin-nav__icon"><use href="#icon-external"/></svg>Ver o blog</a></nav>

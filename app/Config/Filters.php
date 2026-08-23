@@ -24,6 +24,7 @@ class Filters extends BaseConfig
         'invalidchars'  => InvalidChars::class,
         'secureheaders' => SecureHeaders::class,
         'routeFilter' => \App\Filters\RouteFilter::class,
+        'visits' => \App\Filters\VisitTracker::class,
     ];
 
     /**
@@ -40,6 +41,7 @@ class Filters extends BaseConfig
         ],
         'after' => [
             'toolbar',
+            'visits',
             // 'honeypot',
             // 'secureheaders',
         ],
