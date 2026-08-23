@@ -2,81 +2,43 @@
 
 namespace App\Controllers;
 
-use App\Models\CategoriaModel;
-use App\Models\PostagemModel;
-use App\Models\PaginaModel;
+use App\Services\BlogService;
+use CodeIgniter\Exceptions\PageNotFoundException;
 
 class Home extends BaseController
 {
 
-    public function __construct()
+    private BlogService $blog;
+
+    public function __construct(?BlogService $blog = null)
     {
-        $this->postagemModel = new PostagemModel();
-        $this->categoriaModel = new CategoriaModel();
-        $this->paginaModel = new PaginaModel();
-        $this->session     = \Config\Services::session();
+        $this->blog = $blog ?? new BlogService();
     }
 
     public function index()
     {
 
-        $dados = [
-            'featured_post' => $this->postagemModel->get_last_post(),
-            'posts' => $this->postagemModel->get_posts()->paginate(getenv('PAGINATION')),
-            'pager' => $this->postagemModel->pager
-        ];
-        return view('home', $dados);
+        return view('home', $this->blog->home($this->perPage()));
     }
 
 
     public function categoria($slug = null)
     {
 
-        if ($slug == null) {
-            $dados = [
-                'pager' => $this->postagemModel->pager,
-                'posts' => array()
-            ];
-        } else {
-            $categoria =  $this->categoriaModel->get_id_categoria($slug);
-            $dados = [
-                'posts' => $this->postagemModel->get_posts_categoria($categoria['id'])->paginate(getenv('PAGINATION')),
-                'pager' => $this->postagemModel->pager,
-                'slug' => $slug
-            ];
+        if ($slug === null || ($dados = $this->blog->postsByCategory($slug, $this->perPage())) === null) {
+            throw PageNotFoundException::forPageNotFound('Categoria não encontrada.');
         }
+
         return view('categoria', $dados);
     }
 
     public function pesquisa()
     {
-        $metodo =   $_SERVER['REQUEST_METHOD'];
-        if ($metodo == 'POST') {
-            $pesquisa = $this->request->getPost('pesquisa');
-        } else {
-            $pesquisa = $this->session->getFlashdata('pesquisa');
+        $pesquisa = trim((string) $this->request->getPostGet('pesquisa'));
+        if ($pesquisa === '') {
+            return view('pesquisa', ['posts' => [], 'pager' => null, 'pesquisa' => '']);
         }
-        if (!$pesquisa) {
-            $dados = [
-                'pager' => $this->postagemModel->pager,
-                'posts' => array()
-            ];
-        } else {
-            $retorno = $this->postagemModel->get_post_pesquisa($pesquisa);
-            if ($retorno == null) {
-                $dados = [
-                    'pager' => $this->postagemModel->pager,
-                    'posts' => array()
-                ];
-            } else {
-                $this->session->setFlashdata('pesquisa', $pesquisa);
-                $dados = [
-                    'posts' => $retorno->paginate(getenv('PAGINATION')),
-                    'pager' => $this->postagemModel->pager,
-                    'pesquisa' => $pesquisa
-                ];
-            }
-        }
-        return view('pesquisa', $dados);
+
+        return view('pesquisa', $this->blog->search($pesquisa, $this->perPage()));
     }
 }

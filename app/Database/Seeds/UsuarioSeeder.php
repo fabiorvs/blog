@@ -12,9 +12,25 @@ class UsuarioSeeder extends Seeder
             'nome' => 'Administrador',
             'email' => 'admin@admin',
             'login' => 'admin',
-            'senha' => md5('admin123'),
+            'senha' => password_hash('admin123', PASSWORD_DEFAULT),
+            'deleted_at' => null,
         ];
-        $this->db->table('usuarios')->insert($data);
+
+        $usuario = $this->db->table('usuarios')
+            ->select('id')
+            ->groupStart()
+                ->where('email', $data['email'])
+                ->orWhere('login', $data['login'])
+            ->groupEnd()
+            ->get()
+            ->getRowArray();
+
+        if ($usuario === null) {
+            $this->db->table('usuarios')->insert($data);
+            return;
+        }
+
+        $this->db->table('usuarios')->where('id', $usuario['id'])->update($data);
     }
 
     public function down()

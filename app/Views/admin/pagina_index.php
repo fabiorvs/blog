@@ -1,49 +1,8 @@
 <?= $this->extend('admin/layout') ?>
 <?= $this->section('conteudo') ?>
-
-<div class="row">
-    <div class="col-md-12" style="text-align: right;">
-        <a href="<?= base_url('admin/pagina/novo') ?>" class="btn btn-primary btn-xs">Nova Página</a>
-    </div>
-
-    <h2 class="text-center">
-        Páginas
-    </h2>
-
-    <table class="table table-striped custab">
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Nome</th>
-                <th>Data</th>
-                <th class="text-center">Ações</th>
-            </tr>
-        </thead>
-
-        <?php if (count($paginas) > 0) : ?>
-            <?php foreach ($paginas as $pagina) : ?>
-
-                <tr>
-                    <td><?= $pagina['id'] ?></td>
-                    <td><?= $pagina['nome'] ?></td>
-                    <td><?= data_hora_br($pagina['created_at']) ?></td>
-                    <td class="text-center">
-                        <a class='btn btn-success btn-sm' href="<?= base_url('admin/pagina/editar/' . $pagina['id']) ?>">Editar</a>
-                        <a class="btn btn-danger btn-sm" href="<?= base_url('admin/pagina/excluir/' . $pagina['id']) ?>">Excluir</a>
-                    </td>
-                </tr>
-
-            <?php endforeach; ?>
-        <?php else : ?>
-            Nenhuma página.
-        <?php endif; ?>
-
-    </table>
-    <!-- Pagination-->
-
-    <?php if ($pager) : ?>
-        <?= $pager->links('default', 'bootstrap_pagination') ?>
-    <?php endif ?>
-</div>
-
+<div class="admin-page-header"><div><h1>Páginas</h1><p>Gerencie conteúdos institucionais e links do menu.</p></div><a class="admin-btn admin-btn--primary" href="<?= base_url('admin/pagina/novo') ?>"><svg class="admin-icon"><use href="#icon-plus"/></svg>Nova página</a></div>
+<section class="admin-card"><div class="admin-table-wrap"><table class="admin-table"><thead><tr><th>ID</th><th>Página</th><th>Publicação</th><th class="text-end">Ações</th></tr></thead><tbody>
+<?php foreach ($paginas as $pagina) : ?><tr><td>#<?= $pagina['id'] ?></td><td><div class="admin-table__title"><?= esc($pagina['nome']) ?> <span class="admin-table__meta">— <?= esc($pagina['titulo'] ?: $pagina['nome']) ?></span></div><div class="admin-table__meta">/pagina/<?= esc($pagina['slug']) ?></div></td><td><?= data_hora_br($pagina['created_at']) ?></td><td><div class="admin-actions"><a class="admin-btn admin-btn--secondary" href="<?= base_url('pagina/' . $pagina['slug']) ?>" target="_blank">Ver</a><a class="admin-btn admin-btn--secondary" href="<?= base_url('admin/pagina/editar/' . $pagina['id']) ?>">Editar</a><form action="<?= base_url('admin/pagina/excluir/' . $pagina['id']) ?>" method="post"><?= csrf_field() ?><button class="admin-btn admin-btn--danger" type="submit" onclick="return confirm('Excluir esta página?')">Excluir</button></form></div></td></tr><?php endforeach ?>
+<?php if (empty($paginas)) : ?><tr><td colspan="4" class="admin-empty">Nenhuma página cadastrada.</td></tr><?php endif ?>
+</tbody></table></div></section><?php if ($pager) : ?><div class="mt-4"><?= $pager->links('default', 'bootstrap_pagination') ?></div><?php endif ?>
 <?= $this->endSection() ?>

@@ -2,21 +2,25 @@
 
 namespace App\Controllers;
 
-use App\Controllers\BaseController;
-use App\Models\PaginaModel;
+use App\Services\BlogService;
+use CodeIgniter\Exceptions\PageNotFoundException;
 
 class Pagina extends BaseController
 {
-    public function __construct()
+    private BlogService $blog;
+
+    public function __construct(?BlogService $blog = null)
     {
-        $this->paginaModel = new PaginaModel();
+        $this->blog = $blog ?? new BlogService();
     }
 
     public function index($slug)
     {
-        $dados = [
-            'pagina' => $this->paginaModel->get_pagina_slug($slug)
-        ];
-        return view('pagina', $dados);
+        $pagina = $this->blog->page($slug);
+        if ($pagina === null) {
+            throw PageNotFoundException::forPageNotFound('Página não encontrada.');
+        }
+
+        return view('pagina', ['pagina' => $pagina]);
     }
 }

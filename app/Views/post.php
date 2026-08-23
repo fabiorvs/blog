@@ -1,108 +1,13 @@
 <?= $this->extend('layout') ?>
-
-<?= $this->section('estilos') ?>
-<style>
-    figure {
-        max-width: 100%;
-        height: auto;
-    }
-
-    figure img {
-        max-width: 100%;
-        height: auto;
-    }
-</style>
-<?= $this->endSection() ?>
-
 <?= $this->section('conteudo') ?>
-
-<!-- Post content-->
-<article>
-    <!-- Post header-->
-    <header class="mb-4">
-        <!-- Post title-->
-        <h1 class="fw-bolder mb-1"><?= $post['titulo'] ?></h1>
-        <!-- Post meta content-->
-        <div class="text-muted fst-italic mb-2">Postado em <?= data_hora_br($post['created_at']) ?> por <?= $post['nome_usuario'] ?></div>
-        <!-- Post categories-->
-        <a class="badge bg-secondary text-decoration-none link-light" href="#!"><?= $post['nome_categoria'] ?></a>
-    </header>
-    <!-- Preview image figure-->
-    <!-- <figure class="mb-4"><img class="img-fluid rounded" src="<?= base_url('uploads/' . $post['img']) ?>" alt="..." /></figure> -->
-    <!-- Post content-->
-    <section class="mb-5">
-        <?= $post['conteudo'] ?>
-    </section>
+<article class="post-shell">
+    <a class="eyebrow text-decoration-none" href="<?= base_url('categoria/' . $post['slug_categoria']) ?>"><?= esc($post['nome_categoria']) ?></a>
+    <h1><?= esc($post['titulo']) ?></h1>
+    <p class="text-muted mt-3">Publicado em <?= data_hora_br($post['created_at']) ?> por <?= esc($post['nome_usuario']) ?></p>
+    <?php if (!empty($post['img'])) : ?><img class="post-shell__cover" src="<?= base_url('uploads/' . $post['img']) ?>" alt="Capa: <?= esc($post['titulo'], 'attr') ?>"><?php endif ?>
+    <div class="post-content"><?= $post['conteudo'] ?></div>
 </article>
-<!-- Comments section-->
-<section class="mb-5">
-    <div class="card bg-light">
-        <div class="card-body">
-            <!-- Comment form-->
-            <form class="mb-4"><textarea class="form-control" rows="3" placeholder="Join the discussion and leave a comment!"></textarea></form>
-            <!-- Comment with nested comments-->
-            <div class="d-flex mb-4">
-                <!-- Parent comment-->
-                <div class="flex-shrink-0"><img class="rounded-circle" src="https://dummyimage.com/50x50/ced4da/6c757d.jpg" alt="..." /></div>
-                <div class="ms-3">
-                    <div class="fw-bold">Commenter Name</div>
-                    If you're going to lead a space frontier, it has to be government; it'll never be private enterprise. Because the space frontier is dangerous, and it's expensive, and it has unquantified risks.
-                    <!-- Child comment 1-->
-                    <div class="d-flex mt-4">
-                        <div class="flex-shrink-0"><img class="rounded-circle" src="https://dummyimage.com/50x50/ced4da/6c757d.jpg" alt="..." /></div>
-                        <div class="ms-3">
-                            <div class="fw-bold">Commenter Name</div>
-                            And under those conditions, you cannot establish a capital-market evaluation of that enterprise. You can't get investors.
-                        </div>
-                    </div>
-                    <!-- Child comment 2-->
-                    <div class="d-flex mt-4">
-                        <div class="flex-shrink-0"><img class="rounded-circle" src="https://dummyimage.com/50x50/ced4da/6c757d.jpg" alt="..." /></div>
-                        <div class="ms-3">
-                            <div class="fw-bold">Commenter Name</div>
-                            When you put money directly to a problem, it makes a good headline.
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- Single comment-->
-            <div class="d-flex">
-                <div class="flex-shrink-0"><img class="rounded-circle" src="https://dummyimage.com/50x50/ced4da/6c757d.jpg" alt="..." /></div>
-                <div class="ms-3">
-                    <div class="fw-bold">Commenter Name</div>
-                    When I look at the universe and all the ways the universe wants to kill us, I find it hard to reconcile that with statements of beneficence.
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
 <?= $this->endSection() ?>
-
 <?= $this->section('scripts') ?>
-<script>
-    let oldIframe = document.querySelectorAll("oembed");
-    oldIframe = Array.from(oldIframe);
-
-    for (const i in oldIframe) {
-        //Get the url from oembed tag
-        let url = oldIframe[i].getAttribute("url");
-        //Replace 'watch?v' with 'embed/'
-        url = url.replace("watch?v=", "embed/");
-
-        //Create a iframe tag
-        const newIframe = document.createElement("iframe");
-        newIframe.setAttribute("width", "100%");
-        newIframe.setAttribute("height", "400px");
-        newIframe.setAttribute("allowFullScreen", "");
-        newIframe.setAttribute("frameBorder", 0);
-        if (url) {
-            newIframe.setAttribute("src", url);
-        }
-        // replace oldIframe with newIframe
-        oldIframe[i].parentNode.replaceChild(newIframe, oldIframe[i]);
-    }
-
-    const contentToRender = document.outerHTML;
-    console.log(contentToRender);
-</script>
+<script>document.querySelectorAll('oembed[url]').forEach(function(el){const frame=document.createElement('iframe');frame.src=el.getAttribute('url').replace('watch?v=','embed/');frame.width='100%';frame.height='440';frame.loading='lazy';frame.allowFullscreen=true;el.replaceWith(frame)});</script>
 <?= $this->endSection() ?>

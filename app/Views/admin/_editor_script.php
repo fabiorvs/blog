@@ -1,0 +1,1 @@
+<script>const editorElement=document.querySelector('#conteudo');if(editorElement&&window.ClassicEditor){ClassicEditor.create(editorElement,{mediaEmbed:{previewsInData:true}}).catch(function(error){console.error('Não foi possível carregar o editor.',error)})}</script>

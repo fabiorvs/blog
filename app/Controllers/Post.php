@@ -2,22 +2,25 @@
 
 namespace App\Controllers;
 
-use App\Models\CategoriaModel;
-use App\Models\PostagemModel;
+use App\Services\BlogService;
+use CodeIgniter\Exceptions\PageNotFoundException;
 
 class Post extends BaseController
 {
-    public function __construct()
+    private BlogService $blog;
+
+    public function __construct(?BlogService $blog = null)
     {
-        $this->postagemModel = new PostagemModel();
-        $this->categoriaModel = new CategoriaModel();
+        $this->blog = $blog ?? new BlogService();
     }
 
     public function index($slug = null)
     {
-        $dados = [
-            'post' => $this->postagemModel->get_post_slug($slug)
-        ];
-        return view('post', $dados);
+        $post = $slug === null ? null : $this->blog->post($slug);
+        if ($post === null) {
+            throw PageNotFoundException::forPageNotFound('Postagem não encontrada.');
+        }
+
+        return view('post', ['post' => $post]);
     }
 }

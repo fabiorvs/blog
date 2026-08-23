@@ -54,7 +54,7 @@ class PostagemModel extends Model
 
     public function get_last_post()
     {
-        return $this->select('categorias.nome AS nome_categoria, usuarios.nome AS nome_usuario, postagens.*')
+        return $this->select('categorias.nome AS nome_categoria, categorias.slug AS slug_categoria, usuarios.nome AS nome_usuario, postagens.*')
             ->join('categorias', 'postagens.categoria = categorias.id')
             ->join('usuarios', 'postagens.usuario = usuarios.id')
             ->orderBy('created_at', 'desc')
@@ -63,7 +63,7 @@ class PostagemModel extends Model
 
     public function get_posts()
     {
-        return $this->select('categorias.nome AS nome_categoria, usuarios.nome AS nome_usuario, postagens.*')
+        return $this->select('categorias.nome AS nome_categoria, categorias.slug AS slug_categoria, usuarios.nome AS nome_usuario, postagens.*')
             ->join('categorias', 'postagens.categoria = categorias.id')
             ->join('usuarios', 'postagens.usuario = usuarios.id')
             ->orderBy('created_at', 'desc');
@@ -71,7 +71,7 @@ class PostagemModel extends Model
 
     public function get_posts_categoria($id_categoria)
     {
-        return $this->select('categorias.nome AS nome_categoria, usuarios.nome AS nome_usuario, postagens.*')
+        return $this->select('categorias.nome AS nome_categoria, categorias.slug AS slug_categoria, usuarios.nome AS nome_usuario, postagens.*')
             ->join('categorias', 'postagens.categoria = categorias.id')
             ->join('usuarios', 'postagens.usuario = usuarios.id')
             ->where('categoria', $id_categoria)
@@ -80,7 +80,7 @@ class PostagemModel extends Model
 
     public function get_post_slug($slug)
     {
-        return $this->select('categorias.nome AS nome_categoria, usuarios.nome AS nome_usuario, postagens.*')
+        return $this->select('categorias.nome AS nome_categoria, categorias.slug AS slug_categoria, usuarios.nome AS nome_usuario, postagens.*')
             ->join('categorias', 'postagens.categoria = categorias.id')
             ->join('usuarios', 'postagens.usuario = usuarios.id')
             ->where('postagens.slug', $slug)
@@ -94,9 +94,18 @@ class PostagemModel extends Model
             ->findAll();
     }
 
+    public function slugExists(string $slug, ?int $exceptId = null): bool
+    {
+        $builder = db_connect($this->DBGroup)->table($this->table)
+            ->where('slug', $slug)
+            ->where($this->deletedField, null);
+        if ($exceptId !== null) { $builder->where('id !=', $exceptId); }
+        return $builder->countAllResults() > 0;
+    }
+
     public function get_post_id($id)
     {
-        return $this->select('categorias.nome AS nome_categoria, usuarios.nome AS nome_usuario, postagens.*')
+        return $this->select('categorias.nome AS nome_categoria, categorias.slug AS slug_categoria, usuarios.nome AS nome_usuario, postagens.*')
             ->join('categorias', 'postagens.categoria = categorias.id')
             ->join('usuarios', 'postagens.usuario = usuarios.id')
             ->where('postagens.id', $id)
@@ -105,7 +114,7 @@ class PostagemModel extends Model
 
     public function get_post_pesquisa($pesquisa)
     {
-        return $this->select('categorias.nome AS nome_categoria, usuarios.nome AS nome_usuario, postagens.*')
+        return $this->select('categorias.nome AS nome_categoria, categorias.slug AS slug_categoria, usuarios.nome AS nome_usuario, postagens.*')
             ->join('categorias', 'postagens.categoria = categorias.id')
             ->join('usuarios', 'postagens.usuario = usuarios.id')
             ->like('postagens.titulo', $pesquisa)

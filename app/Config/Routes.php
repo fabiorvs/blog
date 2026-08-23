@@ -21,7 +21,7 @@ $routes->setDefaultController('Home');
 $routes->setDefaultMethod('index');
 $routes->setTranslateURIDashes(false);
 $routes->set404Override();
-$routes->setAutoRoute(true);
+$routes->setAutoRoute(false);
 
 /*
  * --------------------------------------------------------------------
@@ -37,35 +37,46 @@ $routes->get('/categoria/(:any)', 'Home::categoria/$1');
 $routes->get('/pagina/(:any)', 'Pagina::index/$1');
 $routes->get('/pesquisar', 'Home::pesquisa');
 $routes->post('/pesquisar', 'Home::pesquisa');
-$routes->add('/admin/login', 'Admin/Login::index');
+$routes->get('/admin/login', 'Admin/Login::index');
+$routes->post('/admin/login/logar', 'Admin/Login::logar');
+
+// CI 4.1 não resolve de forma confiável parâmetros em grupos aninhados.
+// As rotas com ID ficam explícitas para preservar edição e exclusão.
+$protected = ['filter' => 'routeFilter'];
+$routes->get('admin/postagem/editar/(:num)', 'Admin\Postagem::editar/$1', $protected);
+$routes->post('admin/postagem/salvar/(:num)', 'Admin\Postagem::salvar/$1', $protected);
+$routes->post('admin/postagem/excluir/(:num)', 'Admin\Postagem::excluir/$1', $protected);
+$routes->get('admin/pagina/editar/(:num)', 'Admin\Pagina::editar/$1', $protected);
+$routes->post('admin/pagina/salvar/(:num)', 'Admin\Pagina::salvar/$1', $protected);
+$routes->post('admin/pagina/excluir/(:num)', 'Admin\Pagina::excluir/$1', $protected);
+$routes->get('admin/categoria/editar/(:num)', 'Admin\Categoria::editar/$1', $protected);
+$routes->post('admin/categoria/salvar/(:num)', 'Admin\Categoria::salvar/$1', $protected);
+$routes->post('admin/categoria/excluir/(:num)', 'Admin\Categoria::excluir/$1', $protected);
 
 
 
 $routes->group("admin", ["filter" => "routeFilter"], function ($routes) {
-    $routes->add('/', 'Admin/Dashboard::index');
+    $routes->get('/', 'Admin/Dashboard::index');
+    $routes->post('login/deslogar', 'Admin/Login::deslogar');
+    $routes->get('aparencia', 'Admin/Aparencia::index');
+    $routes->post('aparencia', 'Admin/Aparencia::salvar');
 
     $routes->group("postagem",  function ($routes) {
-        $routes->add('/', 'Admin/Postagem::index');
-        $routes->add('novo', 'Admin/Postagem::novo');
-        $routes->add('editar', 'Admin/Postagem::editar');
-        $routes->add('salvar', 'Admin/Postagem::salvar');
-        $routes->add('excluir', 'Admin/Postagem::excluir');
+        $routes->get('/', 'Admin/Postagem::index');
+        $routes->get('novo', 'Admin/Postagem::novo');
+        $routes->post('salvar', 'Admin/Postagem::salvar');
     });
 
     $routes->group("pagina",  function ($routes) {
-        $routes->add('/', 'Admin/Pagina::index');
-        $routes->add('novo', 'Admin/Pagina::novo');
-        $routes->add('editar', 'Admin/Pagina::editar');
-        $routes->add('salvar', 'Admin/Pagina::salvar');
-        $routes->add('excluir', 'Admin/Pagina::excluir');
+        $routes->get('/', 'Admin/Pagina::index');
+        $routes->get('novo', 'Admin/Pagina::novo');
+        $routes->post('salvar', 'Admin/Pagina::salvar');
     });
 
     $routes->group("categoria",  function ($routes) {
-        $routes->add('/', 'Admin/Categoria::index');
-        $routes->add('novo', 'Admin/Categoria::novo');
-        $routes->add('editar', 'Admin/Categoria::editar');
-        $routes->add('salvar', 'Admin/Categoria::salvar');
-        $routes->add('excluir', 'Admin/Categoria::excluir');
+        $routes->get('/', 'Admin/Categoria::index');
+        $routes->get('novo', 'Admin/Categoria::novo');
+        $routes->post('salvar', 'Admin/Categoria::salvar');
     });
 });
 /*

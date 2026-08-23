@@ -6,7 +6,7 @@ if (!function_exists("menu_categorias")) {
         $categoriaModel = new \App\Models\CategoriaModel;
         $categorias = $categoriaModel->get_categorias_menu();
         foreach ($categorias as $categoria) {
-            echo '<li><a href="' . base_url('categoria/' . $categoria['slug']) . '">' . $categoria['nome'] . '</a></li>';
+            echo '<a href="' . base_url('categoria/' . rawurlencode($categoria['slug'])) . '">' . esc($categoria['nome']) . '</a>';
         }
     }
 }
@@ -17,7 +17,7 @@ if (!function_exists("menu_paginas")) {
         $paginaModel = new \App\Models\PaginaModel;
         $paginas = $paginaModel->get_all_paginas();
         foreach ($paginas as $pagina) {
-            echo '<li class="nav-item"><a class="nav-link" href="' . base_url('pagina/' . $pagina['slug']) . '">' . $pagina['nome'] . '</a></li>';
+            echo '<a href="' . base_url('pagina/' . rawurlencode($pagina['slug'])) . '">' . esc($pagina['nome']) . '</a>';
         }
     }
 }

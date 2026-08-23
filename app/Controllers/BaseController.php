@@ -49,4 +49,11 @@ class BaseController extends Controller
 
         // E.g.: $this->session = \Config\Services::session();
     }
+
+    protected function perPage(): int
+    {
+        $configured = (int) getenv('PAGINATION');
+
+        return $configured > 0 ? min($configured, 100) : 10;
+    }
 }

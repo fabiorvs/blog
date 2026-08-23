@@ -16,6 +16,7 @@ class PaginaModel extends Model
     protected $protectFields    = true;
     protected $allowedFields    = [
         'nome',
+        'titulo',
         'conteudo',
         'slug',
         'usuario',
@@ -71,6 +72,15 @@ class PaginaModel extends Model
         return $this->select('paginas.slug')
             ->like('paginas.slug', $slug)
             ->findAll();
+    }
+
+    public function slugExists(string $slug, ?int $exceptId = null): bool
+    {
+        $builder = db_connect($this->DBGroup)->table($this->table)
+            ->where('slug', $slug)
+            ->where($this->deletedField, null);
+        if ($exceptId !== null) { $builder->where('id !=', $exceptId); }
+        return $builder->countAllResults() > 0;
     }
 
     public function get_pagina_id($id)

@@ -71,4 +71,13 @@ class CategoriaModel extends Model
     {
         return $this->findAll();
     }
+
+    public function slugExists(string $slug, ?int $exceptId = null): bool
+    {
+        $builder = db_connect($this->DBGroup)->table($this->table)
+            ->where('slug', $slug)
+            ->where($this->deletedField, null);
+        if ($exceptId !== null) { $builder->where('id !=', $exceptId); }
+        return $builder->countAllResults() > 0;
+    }
 }

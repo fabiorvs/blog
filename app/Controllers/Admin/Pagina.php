@@ -3,24 +3,22 @@
 namespace App\Controllers\Admin;
 
 use App\Controllers\BaseController;
-use App\Models\PaginaModel;
+use App\Services\AdminContentService;
+use CodeIgniter\Exceptions\PageNotFoundException;
 
 class Pagina extends BaseController
 {
 
-    public function __construct()
+    private AdminContentService $content;
+
+    public function __construct(?AdminContentService $content = null)
     {
-        $this->paginaModel = new PaginaModel();
-        $this->session     = \Config\Services::session();
+        $this->content = $content ?? new AdminContentService();
     }
 
     public function index()
     {
-        $dados = [
-            'paginas' => $this->paginaModel->get_paginas()->paginate(getenv('PAGINATION')),
-            'pager' => $this->paginaModel->pager,
-        ];
-        return view('admin/pagina_index', $dados);
+        return view('admin/pagina_index', $this->content->paginatedPages($this->perPage()));
     }
 
     public function novo()
@@ -30,51 +28,37 @@ class Pagina extends BaseController
 
     public function salvar($id = null)
     {
-        if ($this->request->getVar('slug')) {
-            $slug = $this->request->getVar('slug');
-        } else {
-            $slug = url_title(strtolower($this->request->getVar('nome')));
-            $slug = valida_slug_pagina($slug);
-        }
         $dados = [
-            'nome' => $this->request->getVar('nome'),
-            'slug' => $slug,
-            'conteudo' => $this->request->getVar('conteudo'),
-            'usuario' => getUsuario('id')
-
+            'nome' => trim((string) $this->request->getPost('nome')),
+            'titulo' => trim((string) $this->request->getPost('titulo')),
+            'slug' => trim((string) $this->request->getPost('slug')),
+            'conteudo' => (string) $this->request->getPost('conteudo'),
+            'usuario' => (int) session()->get('id'),
         ];
-
-        if ($id) {
-            $dados['id'] = $id;
+        if ($dados['nome'] === '' || $dados['titulo'] === '' || trim($dados['conteudo']) === '') {
+            return redirect()->back()->withInput()->with('errors', ['Preencha o nome do link, o título e o conteúdo.']);
         }
 
-        if ($this->paginaModel->save($dados)) {
-            return redirect()->to('/admin/pagina');
-        } else {
-            echo "Erro";
+        if ($this->content->savePage($dados, $id === null ? null : (int) $id)) {
+            return redirect()->to('/admin/pagina')->with('success', 'Página salva com sucesso.');
         }
+
+        return redirect()->back()->withInput()->with('errors', ['Não foi possível salvar a página.']);
     }
 
     public function editar($id)
     {
-        $dados = [
-            'pagina' => $this->paginaModel->get_pagina_id($id)
-        ];
-
-        return view('admin/pagina_editar', $dados);
+        $pagina = $this->content->page((int) $id);
+        if ($pagina === null) { throw PageNotFoundException::forPageNotFound('Página não encontrada.'); }
+        return view('admin/pagina_editar', ['pagina' => $pagina]);
     }
 
     public function excluir($id)
     {
-        $dados = [
-            'id' => $id,
-            'deleted_at' =>  date("Y-m-d H:i:s")
-        ];
-
-        if ($this->paginaModel->save($dados)) {
-            return redirect()->to('/admin/pagina');
-        } else {
-            echo "Erro";
+        if ($this->content->deletePage((int) $id)) {
+            return redirect()->to('/admin/pagina')->with('success', 'Página excluída com sucesso.');
         }
+
+        return redirect()->back()->with('errors', ['Não foi possível excluir a página.']);
     }
 }

@@ -3,24 +3,22 @@
 namespace App\Controllers\Admin;
 
 use App\Controllers\BaseController;
-use App\Models\CategoriaModel;
+use App\Services\AdminContentService;
+use CodeIgniter\Exceptions\PageNotFoundException;
 
 class Categoria extends BaseController
 {
 
-    public function __construct()
+    private AdminContentService $content;
+
+    public function __construct(?AdminContentService $content = null)
     {
-        $this->categoriaModel = new CategoriaModel();
-        $this->session     = \Config\Services::session();
+        $this->content = $content ?? new AdminContentService();
     }
 
     public function index()
     {
-        $dados = [
-            'categorias' => $this->categoriaModel->get_categorias()->paginate(getenv('PAGINATION')),
-            'pager' => $this->categoriaModel->pager,
-        ];
-        return view('admin/categoria_index', $dados);
+        return view('admin/categoria_index', $this->content->paginatedCategories($this->perPage()));
     }
 
     public function novo()
@@ -32,40 +30,31 @@ class Categoria extends BaseController
     {
 
 
-        $dados = [
-            'nome' => $this->request->getVar('nome'),
-            'slug' => url_title(strtolower($this->request->getVar('nome')))
-        ];
-
-        if ($id) {
-            $dados['id'] = $id;
+        $dados = ['nome' => trim((string) $this->request->getPost('nome'))];
+        if ($dados['nome'] === '') {
+            return redirect()->back()->withInput()->with('errors', ['nome' => 'Informe o nome da categoria.']);
         }
 
-        if ($this->categoriaModel->save($dados)) {
-            return redirect()->to('/admin/categoria');
-        } else {
-            echo "Erro";
+        if ($this->content->saveCategory($dados, $id === null ? null : (int) $id)) {
+            return redirect()->to('/admin/categoria')->with('success', 'Categoria salva com sucesso.');
         }
+
+        return redirect()->back()->withInput()->with('errors', ['Não foi possível salvar a categoria.']);
     }
 
     public function editar($id)
     {
-        $dados = [
-            'categoria' => $this->categoriaModel->get_categoria_id($id)
-        ];
-        return view('admin/categoria_editar', $dados);
+        $categoria = $this->content->category((int) $id);
+        if ($categoria === null) { throw PageNotFoundException::forPageNotFound('Categoria não encontrada.'); }
+        return view('admin/categoria_editar', ['categoria' => $categoria]);
     }
 
     public function excluir($id)
     {
-        $dados = [
-            'id' => $id,
-            'deleted_at' =>  date("Y-m-d H:i:s")
-        ];
-        if ($this->categoriaModel->save($dados)) {
-            return redirect()->to('/admin/categoria');
-        } else {
-            echo "Erro";
+        if ($this->content->deleteCategory((int) $id)) {
+            return redirect()->to('/admin/categoria')->with('success', 'Categoria excluída com sucesso.');
         }
+
+        return redirect()->back()->with('errors', ['Não foi possível excluir a categoria.']);
     }
 }

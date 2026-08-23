@@ -1,0 +1,12 @@
+<div class="admin-page-header"><div><h1><?= $editing ? 'Editar postagem' : 'Nova postagem' ?></h1><p><?= $editing ? 'Atualize o conteúdo, a categoria ou a imagem de capa.' : 'Publique um novo artigo no blog.' ?></p></div></div>
+<form class="admin-card admin-form-card" action="<?= $action ?>" method="post" enctype="multipart/form-data"><div class="admin-card__body"><?= csrf_field() ?>
+    <div class="row g-4">
+        <div class="col-lg-8"><label class="form-label" for="titulo">Título</label><input class="form-control" id="titulo" name="titulo" maxlength="150" value="<?= esc(old('titulo', $post['titulo'] ?? ''), 'attr') ?>" required></div>
+        <div class="col-lg-4"><label class="form-label" for="categoria">Categoria</label><select class="form-select" id="categoria" name="categoria" required><option value="">Selecione</option><?php foreach ($categorias as $categoria) : ?><option value="<?= $categoria['id'] ?>" <?= (string) old('categoria', $post['categoria'] ?? '') === (string) $categoria['id'] ? 'selected' : '' ?>><?= esc($categoria['nome']) ?></option><?php endforeach ?></select></div>
+        <div class="col-12"><label class="form-label" for="subtitulo">Resumo</label><textarea class="form-control" id="subtitulo" name="subtitulo" rows="2" maxlength="150" required><?= esc(old('subtitulo', $post['subtitulo'] ?? '')) ?></textarea><div class="form-text">Uma chamada curta exibida nos cards da página inicial.</div></div>
+        <div class="col-12"><label class="form-label" for="imagem">Imagem de capa</label><?php if (!empty($post['img'])) : ?><div><img class="admin-cover-preview" src="<?= base_url('uploads/' . $post['img']) ?>" alt="Capa atual"></div><?php endif ?><input class="form-control" type="file" accept="image/jpeg,image/png,image/webp" name="imagem" id="imagem" <?= $editing ? '' : 'required' ?>><div class="form-text">JPG, PNG ou WebP, até 5 MB. Proporção recomendada: 3:2.</div></div>
+        <div class="col-12"><label class="form-label" for="conteudo">Conteúdo</label><textarea class="form-control" id="conteudo" name="conteudo" rows="16"><?= esc(old('conteudo', $post['conteudo'] ?? '')) ?></textarea></div>
+        <?php if ($editing) : ?><input type="hidden" name="slug" value="<?= esc($post['slug'], 'attr') ?>"><?php endif ?>
+    </div>
+    <div class="admin-form-actions"><a class="admin-btn admin-btn--secondary" href="<?= base_url('admin/postagem') ?>">Cancelar</a><button class="admin-btn admin-btn--primary" type="submit"><?= $editing ? 'Salvar alterações' : 'Publicar postagem' ?></button></div>
+</div></form>

@@ -45,10 +45,9 @@ class UsuarioModel extends Model
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
 
-    public function get_usuario_login($email, $senha)
+    public function findByEmail(string $email): ?array
     {
         return $this->where('email', $email)
-            ->where('senha', $senha)
             ->first();
     }
 }

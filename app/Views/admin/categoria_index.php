@@ -1,47 +1,8 @@
 <?= $this->extend('admin/layout') ?>
 <?= $this->section('conteudo') ?>
-
-<div class="row">
-    <div class="col-md-12" style="text-align: right;">
-        <a href="<?=base_url('admin/categoria/novo')?>" class="btn btn-primary btn-xs">Nova Categoria</a>
-    </div>
-
-    <h2 class="text-center">
-        Categorias
-    </h2>
-
-    <table class="table table-striped custab">
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Nome</th>
-                <th class="text-center">Ações</th>
-            </tr>
-        </thead>
-
-        <?php if (count($categorias) > 0) : ?>
-            <?php foreach ($categorias as $categoria) : ?>
-
-                <tr>
-                    <td><?= $categoria['id'] ?></td>
-                    <td><?= $categoria['nome'] ?></td>
-                    <td class="text-center">
-                        <a class='btn btn-success btn-sm' href="<?=base_url('admin/categoria/editar/'.$categoria['id'])?>">Editar</a> 
-                        <a class="btn btn-danger btn-sm" href="<?=base_url('admin/categoria/excluir/'.$categoria['id'])?>">Excluir</a>
-                    </td>
-                </tr>
-
-            <?php endforeach; ?>
-        <?php else : ?>
-            Nenhuma postagem.
-        <?php endif; ?>
-
-    </table>
-    <!-- Pagination-->
-
-    <?php if ($pager) : ?>
-        <?= $pager->links('default', 'bootstrap_pagination') ?>
-    <?php endif ?>
-</div>
-
+<div class="admin-page-header"><div><h1>Categorias</h1><p>Organize as postagens em assuntos fáceis de navegar.</p></div><a class="admin-btn admin-btn--primary" href="<?= base_url('admin/categoria/novo') ?>"><svg class="admin-icon"><use href="#icon-plus"/></svg>Nova categoria</a></div>
+<section class="admin-card"><div class="admin-table-wrap"><table class="admin-table"><thead><tr><th>ID</th><th>Categoria</th><th class="text-end">Ações</th></tr></thead><tbody>
+<?php foreach ($categorias as $categoria) : ?><tr><td>#<?= $categoria['id'] ?></td><td><div class="admin-table__title"><?= esc($categoria['nome']) ?></div></td><td><div class="admin-actions"><a class="admin-btn admin-btn--secondary" href="<?= base_url('admin/categoria/editar/' . $categoria['id']) ?>">Editar</a><form action="<?= base_url('admin/categoria/excluir/' . $categoria['id']) ?>" method="post"><?= csrf_field() ?><button class="admin-btn admin-btn--danger" type="submit" onclick="return confirm('Excluir esta categoria?')">Excluir</button></form></div></td></tr><?php endforeach ?>
+<?php if (empty($categorias)) : ?><tr><td colspan="3" class="admin-empty">Nenhuma categoria cadastrada.</td></tr><?php endif ?>
+</tbody></table></div></section><?php if ($pager) : ?><div class="mt-4"><?= $pager->links('default', 'bootstrap_pagination') ?></div><?php endif ?>
 <?= $this->endSection() ?>
