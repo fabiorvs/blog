@@ -36,7 +36,7 @@
                     <h2 class="h5 mb-1">Analytics e métricas</h2>
                     <p class="text-muted small">Cole tags <code>&lt;script&gt;</code> de serviços como Plausible, Google Analytics ou outro provedor. Por segurança, apenas URLs HTTPS externas e atributos <code>data-*</code> são aceitos; scripts inline são removidos.</p>
                     <label class="form-label" for="analytics_scripts">Scripts</label>
-                    <textarea class="form-control font-monospace" id="analytics_scripts" name="analytics_scripts" rows="6" placeholder="&lt;script defer src=&quot;https://analytics.exemplo.com/script.js&quot; data-website-id=&quot;SEU-UUID&quot;&gt;&lt;/script&gt;"><?= esc($theme['analytics_scripts']) ?></textarea>
+                    <textarea class="form-control font-monospace" id="analytics_scripts" name="analytics_scripts" rows="6" placeholder="&lt;script defer src=&quot;https://analytics.exemplo.com/script.js&quot; data-website-id=&quot;SEU-UUID&quot;&gt;&lt;/script&gt;"><?= esc(html_entity_decode($theme['analytics_scripts'], ENT_QUOTES | ENT_HTML5, 'UTF-8')) ?></textarea>
                     <div class="form-text">Um ou mais scripts, um por linha. Deixe vazio para desativar.</div>
                 </div>
             </div>
