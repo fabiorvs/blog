@@ -99,6 +99,9 @@ class ThemeService
     private function sanitizeAnalyticsScripts(string $value): string
     {
         $output = [];
+        // Older saves may contain HTML entities because attributes were escaped
+        // before persistence. Decode them before validating the source URL.
+        $value = html_entity_decode($value, ENT_QUOTES | ENT_HTML5, 'UTF-8');
         if (trim($value) === '') return '';
         preg_match_all('/<script\b([^>]*)>\s*<\/script\s*>/is', $value, $matches, PREG_SET_ORDER);
         foreach ($matches as $match) {
