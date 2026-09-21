@@ -24,6 +24,7 @@ class ThemeService
         'newsletter_text' => 'Conteúdos selecionados sobre tecnologia, negócios e produtividade.',
         'featured_post_id' => '',
         'footer_text' => 'Conteúdo feito para informar, inspirar e ajudar você a decidir melhor.',
+        'analytics_scripts' => '',
     ];
 
     private $db;
@@ -45,7 +46,9 @@ class ThemeService
             $stored[$row['chave']] = (string) $row['valor'];
         }
 
-        return array_merge(self::DEFAULTS, array_intersect_key($stored, self::DEFAULTS));
+        $settings = array_merge(self::DEFAULTS, array_intersect_key($stored, self::DEFAULTS));
+        $settings['analytics_scripts'] = $this->sanitizeAnalyticsScripts($settings['analytics_scripts']);
+        return $settings;
     }
 
     public function save(array $input): void
@@ -71,6 +74,9 @@ class ThemeService
             ''
         );
 
+        // Only allow external HTTPS scripts with a small, explicit attribute set.
+        $settings['analytics_scripts'] = $this->sanitizeAnalyticsScripts($settings['analytics_scripts']);
+
         foreach (['logo_path', 'hero_background_path'] as $pathKey) {
             if ($settings[$pathKey] !== '' && preg_match('#^uploads/theme/[a-zA-Z0-9._-]+$#', $settings[$pathKey]) !== 1) {
                 $settings[$pathKey] = '';
@@ -88,5 +94,25 @@ class ThemeService
             }
         }
         $this->db->transComplete();
+    }
+
+    private function sanitizeAnalyticsScripts(string $value): string
+    {
+        $output = [];
+        if (trim($value) === '') return '';
+        preg_match_all('/<script\b([^>]*)>\s*<\/script\s*>/is', $value, $matches, PREG_SET_ORDER);
+        foreach ($matches as $match) {
+            $attrs = $match[1];
+            if (preg_match('/\bsrc\s*=\s*["\'](https:\/\/[^"\']+)["\']/i', $attrs, $src) !== 1) continue;
+            $url = $src[1];
+            $parts = ['defer'];
+            if (preg_match('/\basync\b/i', $attrs)) $parts[] = 'async';
+            if (preg_match('/\btype\s*=\s*["\']([a-z0-9.+-]+)["\']/i', $attrs, $type)) $parts[] = 'type="' . esc($type[1], 'attr') . '"';
+            $parts[] = 'src="' . esc($url, 'attr') . '"';
+            preg_match_all('/\b(data-[a-z0-9_-]+)\s*=\s*["\']([^"\']*)["\']/i', $attrs, $data, PREG_SET_ORDER);
+            foreach ($data as $attribute) $parts[] = strtolower($attribute[1]) . '="' . esc($attribute[2], 'attr') . '"';
+            $output[] = '<script ' . implode(' ', $parts) . '></script>';
+        }
+        return implode("\n", $output);
     }
 }

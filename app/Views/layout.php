@@ -16,6 +16,9 @@
     <link rel="stylesheet" href="<?= base_url('assets/high/styles/codepen-embed.min.css') ?>">
     <style>:root{--theme-primary:<?= esc($theme['primary_color']) ?>;--theme-accent:<?= esc($theme['accent_color']) ?>;--theme-bg:<?= esc($theme['background_color']) ?>;--theme-text:<?= esc($theme['text_color']) ?>}</style>
     <?= $this->renderSection('estilos') ?>
+    <?php if (!empty($theme['analytics_scripts'])) : ?>
+        <?= $theme['analytics_scripts'] ?>
+    <?php endif ?>
 </head>
 <body>
     <header class="site-header">

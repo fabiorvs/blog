@@ -33,6 +33,16 @@
 
             <div class="admin-card admin-form-card mb-4">
                 <div class="card-body p-4">
+                    <h2 class="h5 mb-1">Analytics e métricas</h2>
+                    <p class="text-muted small">Cole tags <code>&lt;script&gt;</code> de serviços como Plausible, Google Analytics ou outro provedor. Por segurança, apenas URLs HTTPS externas e atributos <code>data-*</code> são aceitos; scripts inline são removidos.</p>
+                    <label class="form-label" for="analytics_scripts">Scripts</label>
+                    <textarea class="form-control font-monospace" id="analytics_scripts" name="analytics_scripts" rows="6" placeholder="&lt;script defer src=&quot;https://analytics.exemplo.com/script.js&quot; data-website-id=&quot;SEU-UUID&quot;&gt;&lt;/script&gt;"><?= esc($theme['analytics_scripts']) ?></textarea>
+                    <div class="form-text">Um ou mais scripts, um por linha. Deixe vazio para desativar.</div>
+                </div>
+            </div>
+
+            <div class="admin-card admin-form-card mb-4">
+                <div class="card-body p-4">
                     <h2 class="h5 mb-1">Imagens da identidade</h2>
                     <p class="text-muted small mb-4">Use arquivos otimizados em JPG, PNG ou WebP, com até 5 MB.</p>
                     <div class="row g-4">
