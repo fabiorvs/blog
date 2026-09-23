@@ -10,7 +10,7 @@ class AnalyticsService
             $period = '30days';
         }
 
-        [$start,$label]=$this->range($period); $where=['visited_at >='=>$start->format('Y-m-d H:i:s')];
+        [$start,$label]=$this->range($period); $where=['visited_at >='=>$start->format('Y-m-d H:i:s'), 'navegador !='=>'Outro'];
         $totals=$this->db->table('visitas')->select('COUNT(*) visits, COUNT(DISTINCT visitante_hash) visitors',false)->where($where)->get()->getRowArray();
         $monthly=$period==='12months';
         return ['period'=>$period,'periodLabel'=>$label,'start'=>$start->format('d/m/Y'),'totalVisits'=>(int)($totals['visits']??0),'uniqueVisitors'=>(int)($totals['visitors']??0),'timelineLabel'=>$monthly?'Visitas por mês':'Visitas por dia','daily'=>$this->timeline($monthly?"DATE_FORMAT(visited_at, '%Y-%m')":'DATE(visited_at)',$where),'browsers'=>$this->group('navegador','nome',$where,8),'devices'=>$this->group('dispositivo','nome',$where,8),'countries'=>$this->countries($where),'pages'=>$this->group('caminho','nome',$where,10),'referrers'=>$this->group("COALESCE(referencia, 'Direto')",'nome',$where,10)];
