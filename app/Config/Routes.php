@@ -32,6 +32,7 @@ $routes->setAutoRoute(false);
 // We get a performance increase by specifying the default
 // route since we don't have to scan directories.
 $routes->get('/', 'Home::index');
+$routes->get("/health", "Health::index");
 $routes->get('/post/(:any)', 'Post::index/$1');
 $routes->get('/categoria/(:any)', 'Home::categoria/$1');
 $routes->get('/pagina/(:any)', 'Pagina::index/$1');

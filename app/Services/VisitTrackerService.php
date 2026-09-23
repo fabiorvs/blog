@@ -8,7 +8,7 @@ class VisitTrackerService
         $method = strtoupper($request->getMethod());
         $path = trim($request->getUri()->getPath(), '/');
         $agent = (string) $request->getUserAgent();
-        if ($method !== 'GET' || $path === 'admin' || strpos($path, 'admin/') === 0 || $this->isBot($agent)) { return; }
+        if ($method !== "GET" || $path === "admin" || strpos($path, "admin/") === 0 || $path === "health" || $this->isBot($agent)) { return; }
         $db = db_connect();
         if (!$db->tableExists('visitas')) { return; }
         $country = strtoupper(trim((string) ($request->getHeaderLine('CF-IPCountry') ?: $request->getHeaderLine('CloudFront-Viewer-Country') ?: $request->getHeaderLine('X-Country-Code'))));
