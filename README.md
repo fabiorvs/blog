@@ -13,8 +13,12 @@ O objetivo é oferecer o essencial para publicação de conteúdo sem depender d
 - pesquisa e navegação por categorias;
 - páginas institucionais com nome de menu e título independentes;
 - painel administrativo protegido por autenticação e CSRF;
-- personalização de nome, textos, cores, logo e imagem de fundo;
+- personalização de nome, textos, cores, logo, imagem de fundo e SMTP;
 - controle da transparência da imagem de fundo;
+- cadastro de pessoas que ministram aulas, com graduação, biografia, e-mail, WhatsApp, fotos e vários locais de aula;
+- mapa público com todos os locais e busca de aulas mais próximas a partir de um CEP;
+- área restrita **Meu perfil**, onde cada pessoa atualiza apenas o próprio perfil, fotos e locais;
+- convite por e-mail para criação de senha e reenvio de acesso pelo painel;
 - layout responsivo para desktop, tablet e celular;
 - camada de serviços para separar as regras de negócio dos controllers;
 - migrações, seeds e testes automatizados.
@@ -22,13 +26,13 @@ O objetivo é oferecer o essencial para publicação de conteúdo sem depender d
 ## Stack
 
 - **PHP 8** — linguagem do backend;
-- **CodeIgniter 4.1.9** — framework MVC;
+- **CodeIgniter 4.7.6** — framework MVC;
 - **MySQL ou MariaDB** — banco de dados;
 - **Bootstrap 5** — componentes e base responsiva;
 - **CKEditor 5** — edição de conteúdo rico;
 - **HTML5, CSS3 e JavaScript** — interface pública e administrativa;
 - **Composer** — gerenciamento das dependências PHP;
-- **PHPUnit 9** — testes automatizados.
+- **PHPUnit 11** — testes automatizados.
 
 ## Requisitos
 
@@ -88,6 +92,12 @@ php spark db:seed BlogDemoSeeder
 php spark db:seed MestreCamisaPageSeeder
 ```
 
+Para carregar perfis e locais demonstrativos de aulas em São Paulo:
+
+```bash
+php spark db:seed DemoAulasSeeder
+```
+
 Para importar o conteúdo preservado do antigo site da ABADÁ São Paulo, incluindo as 15 postagens na categoria **Eventos** e a página **Sobre**, execute:
 
 ```bash
@@ -124,6 +134,16 @@ Depois de acessar o painel, abra **Aparência** para configurar:
 - postagem em destaque;
 - categorias e bloco de newsletter;
 - textos do rodapé.
+
+Na seção **E-mail e convites**, configure o servidor SMTP usado para enviar o link de criação ou redefinição de senha dos perfis. Para testes com MailHog, use o host e a porta do seu ambiente e selecione **Nenhuma (MailHog)** em criptografia.
+
+## Aulas, locais e acesso ao perfil
+
+No painel, abra **Aulas e locais** para cadastrar a pessoa responsável pelas aulas. Um perfil pode ter diversos locais, cada um com endereço, dias e horários. Ao salvar um endereço, o sistema busca as coordenadas automaticamente; CEPs brasileiros são resolvidos primeiro para endereço completo.
+
+Preencha o e-mail para habilitar o acesso individual. Caso a pessoa ainda não tenha senha, o sistema envia um convite com validade de 24 horas para a criação da senha. Na listagem de **Aulas e locais**, o botão **Reenviar acesso** gera um novo link e invalida o anterior.
+
+A pessoa acessa `http://localhost:8080/meu-perfil/login` (também disponível no rodapé público). Nessa área ela pode editar somente o próprio cadastro, incluindo biografia, WhatsApp, foto de perfil, galeria e locais de aula. Não há acesso ao painel administrativo.
 
 Imagens enviadas pelo painel são armazenadas em `public/uploads`. Em produção, garanta permissão de escrita nessa pasta e configure o servidor web para usar `public` como diretório raiz.
 
