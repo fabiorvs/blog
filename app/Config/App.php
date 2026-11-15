@@ -26,6 +26,14 @@ class App extends BaseConfig
     public $baseURL = 'http://localhost:8080/';
 
     /**
+     * Hosts alternativos aceitos além do host definido em $baseURL.
+     * Mantenha vazio enquanto a aplicação responder por apenas um domínio.
+     *
+     * @var list<string>
+     */
+    public array $allowedHostnames = [];
+
+    /**
      * --------------------------------------------------------------------------
      * Index File
      * --------------------------------------------------------------------------
@@ -56,6 +64,11 @@ class App extends BaseConfig
      * @var string
      */
     public $uriProtocol = 'REQUEST_URI';
+
+    /**
+     * Caracteres permitidos nas URLs da aplicação.
+     */
+    public string $permittedURIChars = 'a-z 0-9~%.:_\\-';
 
     /**
      * --------------------------------------------------------------------------
@@ -342,7 +355,13 @@ class App extends BaseConfig
      *
      * @var string|string[]
      */
-    public $proxyIPs = '';
+    /**
+     * Proxies confiáveis no formato IP => cabeçalho HTTP.
+     * Vazio significa que a aplicação não está atrás de proxy confiável.
+     *
+     * @var array<string, string>
+     */
+    public array $proxyIPs = [];
 
     /**
      * --------------------------------------------------------------------------

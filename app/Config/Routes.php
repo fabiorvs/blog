@@ -38,8 +38,10 @@ $routes->get('/categoria/(:any)', 'Home::categoria/$1');
 $routes->get('/pagina/(:any)', 'Pagina::index/$1');
 $routes->get('/pesquisar', 'Home::pesquisa');
 $routes->post('/pesquisar', 'Home::pesquisa');
-$routes->get('/admin/login', 'Admin/Login::index');
-$routes->post('/admin/login/logar', 'Admin/Login::logar');
+$routes->get('/aulas-e-locais', 'Aulas::index');
+$routes->get('/aulas-e-locais/(:num)', 'Aulas::perfil/$1');
+$routes->get('/admin/login', 'Admin\Login::index');
+$routes->post('/admin/login/logar', 'Admin\Login::logar');
 
 // CI 4.1 não resolve de forma confiável parâmetros em grupos aninhados.
 // As rotas com ID ficam explícitas para preservar edição e exclusão.
@@ -57,38 +59,47 @@ $routes->post('admin/categoria/excluir/(:num)', 'Admin\Categoria::excluir/$1', $
 $routes->get('admin/usuario/editar/(:num)', 'Admin\Usuario::editar/$1', $protected);
 $routes->post('admin/usuario/salvar/(:num)', 'Admin\Usuario::salvar/$1', $protected);
 $routes->post('admin/usuario/excluir/(:num)', 'Admin\Usuario::excluir/$1', $protected);
+$routes->get('admin/instrutor/editar/(:num)', 'Admin\Instrutor::editar/$1', $protected);
+$routes->post('admin/instrutor/salvar/(:num)', 'Admin\Instrutor::salvar/$1', $protected);
+$routes->post('admin/instrutor/excluir/(:num)', 'Admin\Instrutor::excluir/$1', $protected);
 
 
 
 $routes->group("admin", ["filter" => "routeFilter"], function ($routes) {
-    $routes->get('/', 'Admin/Dashboard::index');
-    $routes->post('login/deslogar', 'Admin/Login::deslogar');
-    $routes->get('aparencia', 'Admin/Aparencia::index');
-    $routes->get('estatisticas', 'Admin/Estatisticas::index');
-    $routes->post('aparencia', 'Admin/Aparencia::salvar');
+    $routes->get('/', 'Admin\Dashboard::index');
+    $routes->post('login/deslogar', 'Admin\Login::deslogar');
+    $routes->get('aparencia', 'Admin\Aparencia::index');
+    $routes->get('estatisticas', 'Admin\Estatisticas::index');
+    $routes->post('aparencia', 'Admin\Aparencia::salvar');
 
     $routes->group("postagem",  function ($routes) {
-        $routes->get('/', 'Admin/Postagem::index');
-        $routes->get('novo', 'Admin/Postagem::novo');
-        $routes->post('salvar', 'Admin/Postagem::salvar');
+        $routes->get('/', 'Admin\Postagem::index');
+        $routes->get('novo', 'Admin\Postagem::novo');
+        $routes->post('salvar', 'Admin\Postagem::salvar');
     });
 
     $routes->group("pagina",  function ($routes) {
-        $routes->get('/', 'Admin/Pagina::index');
-        $routes->get('novo', 'Admin/Pagina::novo');
-        $routes->post('salvar', 'Admin/Pagina::salvar');
+        $routes->get('/', 'Admin\Pagina::index');
+        $routes->get('novo', 'Admin\Pagina::novo');
+        $routes->post('salvar', 'Admin\Pagina::salvar');
     });
 
     $routes->group("categoria",  function ($routes) {
-        $routes->get('/', 'Admin/Categoria::index');
-        $routes->get('novo', 'Admin/Categoria::novo');
-        $routes->post('salvar', 'Admin/Categoria::salvar');
+        $routes->get('/', 'Admin\Categoria::index');
+        $routes->get('novo', 'Admin\Categoria::novo');
+        $routes->post('salvar', 'Admin\Categoria::salvar');
     });
 
     $routes->group("usuario", function ($routes) {
-        $routes->get('/', 'Admin/Usuario::index');
-        $routes->get('novo', 'Admin/Usuario::novo');
-        $routes->post('salvar', 'Admin/Usuario::salvar');
+        $routes->get('/', 'Admin\Usuario::index');
+        $routes->get('novo', 'Admin\Usuario::novo');
+        $routes->post('salvar', 'Admin\Usuario::salvar');
+    });
+
+    $routes->group("instrutor", function ($routes) {
+        $routes->get('/', 'Admin\Instrutor::index');
+        $routes->get('novo', 'Admin\Instrutor::novo');
+        $routes->post('salvar', 'Admin\Instrutor::salvar');
     });
 });
 /*

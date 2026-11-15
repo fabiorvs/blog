@@ -27,7 +27,7 @@
                 <?= esc($theme['site_name']) ?>
             </a>
             <button class="site-menu-toggle" type="button" data-bs-toggle="collapse" data-bs-target="#siteNavigation" aria-controls="siteNavigation" aria-expanded="false" aria-label="Abrir menu">☰</button>
-            <nav class="collapse site-navigation" id="siteNavigation" aria-label="Navegação principal"><a href="<?= base_url() ?>">Início</a><?php menu_paginas() ?></nav>
+            <nav class="collapse site-navigation" id="siteNavigation" aria-label="Navegação principal"><a href="<?= base_url() ?>">Início</a><?php if ($theme['show_aulas_locais'] === '1') : ?><a href="<?= base_url('aulas-e-locais') ?>">Aulas e locais</a><?php endif ?><?php menu_paginas() ?></nav>
             <form class="site-search" action="<?= base_url('pesquisar') ?>" method="get" role="search">
                 <label class="visually-hidden" for="header-search">Pesquisar</label><input id="header-search" name="pesquisa" type="search" placeholder="Pesquisar artigos"><button type="submit" aria-label="Pesquisar">⌕</button>
             </form>
@@ -37,7 +37,7 @@
     <footer class="site-footer">
         <div class="container site-footer__inner">
             <div><a class="site-brand" href="<?= base_url() ?>" aria-label="<?= esc($theme['site_name'], 'attr') ?>"><?php if ($theme['logo_path'] !== '') : ?><img class="site-brand__logo site-brand__logo--footer" src="<?= base_url($theme['logo_path']) ?>" alt="<?= esc($theme['site_name'], 'attr') ?>"><?php else : ?><?= esc($theme['site_name']) ?><?php endif ?></a><p><?= esc($theme['footer_text']) ?></p></div>
-            <div class="site-footer__links"><a href="<?= base_url() ?>">Início</a><?php menu_paginas() ?></div>
+            <div class="site-footer__links"><a href="<?= base_url() ?>">Início</a><?php if ($theme['show_aulas_locais'] === '1') : ?><a href="<?= base_url('aulas-e-locais') ?>">Aulas e locais</a><?php endif ?><?php menu_paginas() ?></div>
             <p class="site-footer__copyright">© <?= date('Y') ?> <?= esc($theme['site_name']) ?></p>
         </div>
     </footer>

@@ -36,6 +36,7 @@
             <a class="<?= $section === 'postagem' ? 'active' : '' ?>" href="<?= base_url('admin/postagem') ?>"><svg class="admin-nav__icon"><use href="#icon-posts"/></svg>Postagens</a>
             <a class="<?= $section === 'pagina' ? 'active' : '' ?>" href="<?= base_url('admin/pagina') ?>"><svg class="admin-nav__icon"><use href="#icon-page"/></svg>Páginas</a>
             <a class="<?= $section === 'categoria' ? 'active' : '' ?>" href="<?= base_url('admin/categoria') ?>"><svg class="admin-nav__icon"><use href="#icon-category"/></svg>Categorias</a>
+            <a class="<?= $section === 'instrutor' ? 'active' : '' ?>" href="<?= base_url('admin/instrutor') ?>"><svg class="admin-nav__icon"><use href="#icon-users"/></svg>Aulas e locais</a>
             <a class="<?= $section === 'usuario' ? 'active' : '' ?>" href="<?= base_url('admin/usuario') ?>"><svg class="admin-nav__icon"><use href="#icon-users"/></svg>Usuários</a>
             <a class="<?= $section === 'estatisticas' ? 'active' : '' ?>" href="<?= base_url('admin/estatisticas') ?>"><svg class="admin-nav__icon"><use href="#icon-chart"/></svg>Estatísticas</a>
         </nav>

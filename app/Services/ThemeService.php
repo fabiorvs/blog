@@ -19,6 +19,7 @@ class ThemeService
         'hero_button' => 'Ler artigo',
         'recent_title' => 'Artigos recentes',
         'show_categories' => '1',
+        'show_aulas_locais' => '1',
         'show_newsletter' => '1',
         'newsletter_title' => 'Receba novos artigos no seu e-mail',
         'newsletter_text' => 'Conteúdos selecionados sobre tecnologia, negócios e produtividade.',

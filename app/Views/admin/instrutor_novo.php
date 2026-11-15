@@ -1,0 +1,4 @@
+<?= $this->extend('admin/layout') ?>
+<?= $this->section('conteudo') ?>
+<?= view('admin/_instrutor_form', ['action' => base_url('admin/instrutor/salvar'), 'editing' => false, 'instrutor' => [], 'locais' => [], 'graduacoes' => $graduacoes]) ?>
+<?= $this->endSection() ?>

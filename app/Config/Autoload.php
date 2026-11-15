@@ -84,4 +84,11 @@ class Autoload extends AutoloadConfig
      * @var array<int, string>
      */
     public $files = [];
+
+    /**
+     * Helpers carregados automaticamente pela aplicação.
+     *
+     * @var list<string>
+     */
+    public $helpers = [];
 }

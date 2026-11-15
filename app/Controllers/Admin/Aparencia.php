@@ -29,6 +29,7 @@ class Aparencia extends BaseController
     {
         $input = array_merge($this->theme->settings(), (array) $this->request->getPost());
         $input['show_categories'] = $this->request->getPost('show_categories') ? '1' : '0';
+        $input['show_aulas_locais'] = $this->request->getPost('show_aulas_locais') ? '1' : '0';
         $input['show_newsletter'] = $this->request->getPost('show_newsletter') ? '1' : '0';
 
         if ($this->request->getPost('remove_logo')) {

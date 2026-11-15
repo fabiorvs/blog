@@ -105,6 +105,10 @@
                         <input class="form-check-input" type="checkbox" id="show_categories" name="show_categories" value="1" <?= $theme['show_categories'] === '1' ? 'checked' : '' ?>>
                         <label class="form-check-label" for="show_categories">Exibir atalhos de categorias</label>
                     </div>
+                    <div class="form-check form-switch mb-2">
+                        <input class="form-check-input" type="checkbox" id="show_aulas_locais" name="show_aulas_locais" value="1" <?= $theme['show_aulas_locais'] === '1' ? 'checked' : '' ?>>
+                        <label class="form-check-label" for="show_aulas_locais">Exibir “Aulas e locais” no menu</label>
+                    </div>
                     <div class="form-check form-switch">
                         <input class="form-check-input" type="checkbox" id="show_newsletter" name="show_newsletter" value="1" <?= $theme['show_newsletter'] === '1' ? 'checked' : '' ?>>
                         <label class="form-check-label" for="show_newsletter">Exibir bloco de newsletter</label>
