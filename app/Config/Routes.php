@@ -42,6 +42,14 @@ $routes->get('/aulas-e-locais', 'Aulas::index');
 $routes->get('/aulas-e-locais/(:num)', 'Aulas::perfil/$1');
 $routes->get('/admin/login', 'Admin\Login::index');
 $routes->post('/admin/login/logar', 'Admin\Login::logar');
+$routes->get('/meu-perfil/login', 'MeuPerfil::login');
+$routes->post('/meu-perfil/login', 'MeuPerfil::autenticar');
+$routes->get('/meu-perfil/ativar/(:segment)', 'MeuPerfil::ativar/$1');
+$routes->post('/meu-perfil/ativar/(:segment)', 'MeuPerfil::concluirAtivacao/$1');
+$routes->get('/meu-perfil', 'MeuPerfil::index');
+$routes->post('/meu-perfil', 'MeuPerfil::salvar');
+$routes->post('/meu-perfil/sair', 'MeuPerfil::sair');
+$routes->post('/meu-perfil/foto/excluir', 'MeuPerfil::excluirFoto');
 
 // CI 4.1 não resolve de forma confiável parâmetros em grupos aninhados.
 // As rotas com ID ficam explícitas para preservar edição e exclusão.
@@ -62,6 +70,7 @@ $routes->post('admin/usuario/excluir/(:num)', 'Admin\Usuario::excluir/$1', $prot
 $routes->get('admin/instrutor/editar/(:num)', 'Admin\Instrutor::editar/$1', $protected);
 $routes->post('admin/instrutor/salvar/(:num)', 'Admin\Instrutor::salvar/$1', $protected);
 $routes->post('admin/instrutor/excluir/(:num)', 'Admin\Instrutor::excluir/$1', $protected);
+$routes->post('admin/instrutor/reenviar-convite/(:num)', 'Admin\Instrutor::reenviarConvite/$1', $protected);
 
 
 

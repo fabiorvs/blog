@@ -4,6 +4,7 @@ namespace App\Controllers\Admin;
 
 use App\Controllers\BaseController;
 use App\Services\GeocodingService;
+use App\Services\PerfilInviteService;
 use App\Models\InstrutorLocalModel;
 use App\Models\InstrutorModel;
 use CodeIgniter\Exceptions\PageNotFoundException;
@@ -57,15 +58,26 @@ class Instrutor extends BaseController
             'nome' => trim((string) $this->request->getPost('nome')),
             'apelido' => trim((string) $this->request->getPost('apelido')),
             'graduacao' => $graduacao,
+            'email' => strtolower(trim((string) $this->request->getPost('email'))),
+            'whatsapp' => trim((string) $this->request->getPost('whatsapp')),
             'biografia' => trim((string) $this->request->getPost('biografia')),
         ];
-        if ($dados['nome'] === '' || $dados['apelido'] === '' || !in_array($graduacao, self::GRADUACOES, true)) {
+        if ($dados['nome'] === '' || $dados['apelido'] === '' || !in_array($graduacao, self::GRADUACOES, true) || ($dados['email'] !== '' && !filter_var($dados['email'], FILTER_VALIDATE_EMAIL))) {
             return redirect()->back()->withInput()->with('errors', ['Informe o nome, apelido e uma graduação válida.']);
         }
 
         $existing = $id === null ? null : $this->instrutores->find((int) $id);
         if ($id !== null && $existing === null) {
             throw PageNotFoundException::forPageNotFound('Cadastro não encontrado.');
+        }
+        if ($dados['email'] !== '' && $this->instrutores->where('email', $dados['email'])->where('id !=', (int) ($id ?? 0))->first() !== null) {
+            return redirect()->back()->withInput()->with('errors', ['Este e-mail já está associado a outro perfil.']);
+        }
+        $inviteToken = null;
+        if ($dados['email'] !== '' && ($existing === null || empty($existing['senha_hash']))) {
+            $inviteToken = bin2hex(random_bytes(32));
+            $dados['convite_token'] = hash('sha256', $inviteToken);
+            $dados['convite_expira_em'] = date('Y-m-d H:i:s', strtotime('+24 hours'));
         }
 
         $profile = $this->request->getFile('foto_perfil');
@@ -107,9 +119,13 @@ class Instrutor extends BaseController
         if (!$db->transStatus()) {
             return redirect()->back()->withInput()->with('errors', ['Não foi possível salvar o cadastro.']);
         }
+        $inviteSent = $inviteToken === null || (new PerfilInviteService())->send($dados['email'], $dados['nome'], $inviteToken);
         $message = $locationsNotFound
             ? 'Cadastro salvo, mas um ou mais endereços não foram localizados automaticamente.'
             : 'Cadastro salvo com sucesso.';
+        if ($inviteToken !== null) {
+            $message .= $inviteSent ? ' O convite para definir a senha foi enviado.' : ' Configure o SMTP em Personalização para enviar o convite de acesso.';
+        }
         return redirect()->to('/admin/instrutor')->with('success', $message);
     }
 
@@ -119,6 +135,29 @@ class Instrutor extends BaseController
             return redirect()->to('/admin/instrutor')->with('success', 'Cadastro excluído com sucesso.');
         }
         return redirect()->back()->with('errors', ['Não foi possível excluir o cadastro.']);
+    }
+
+    public function reenviarConvite($id)
+    {
+        $instrutor = $this->instrutores->find((int) $id);
+        if ($instrutor === null) {
+            throw PageNotFoundException::forPageNotFound('Cadastro não encontrado.');
+        }
+        if (empty($instrutor['email']) || !filter_var($instrutor['email'], FILTER_VALIDATE_EMAIL)) {
+            return redirect()->to('/admin/instrutor')->with('errors', ['Cadastre um e-mail válido antes de enviar o acesso.']);
+        }
+
+        $token = bin2hex(random_bytes(32));
+        $this->instrutores->update($instrutor['id'], [
+            'convite_token' => hash('sha256', $token),
+            'convite_expira_em' => date('Y-m-d H:i:s', strtotime('+24 hours')),
+        ]);
+
+        if (!(new PerfilInviteService())->send($instrutor['email'], $instrutor['nome'], $token)) {
+            return redirect()->to('/admin/instrutor')->with('errors', ['Não foi possível enviar o e-mail. Verifique as configurações SMTP em Personalização.']);
+        }
+
+        return redirect()->to('/admin/instrutor')->with('success', 'Novo link de acesso enviado para ' . $instrutor['email'] . '.');
     }
 
     private function saveLocais(int $instrutorId): bool

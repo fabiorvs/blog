@@ -26,6 +26,13 @@ class ThemeService
         'featured_post_id' => '',
         'footer_text' => 'Conteúdo feito para informar, inspirar e ajudar você a decidir melhor.',
         'analytics_scripts' => '',
+        'smtp_host' => '',
+        'smtp_port' => '587',
+        'smtp_user' => '',
+        'smtp_password' => '',
+        'smtp_crypto' => 'tls',
+        'smtp_from_email' => '',
+        'smtp_from_name' => '',
     ];
 
     private $db;
@@ -67,6 +74,8 @@ class ThemeService
 
         $settings['show_categories'] = !empty($input['show_categories']) ? '1' : '0';
         $settings['show_newsletter'] = !empty($input['show_newsletter']) ? '1' : '0';
+        $settings['smtp_port'] = (string) min(65535, max(1, (int) ($input['smtp_port'] ?? 587)));
+        $settings['smtp_crypto'] = in_array(($input['smtp_crypto'] ?? ''), ['none', 'tls', 'ssl'], true) ? $input['smtp_crypto'] : 'tls';
         $settings['featured_post_id'] = (string) max(0, (int) ($input['featured_post_id'] ?? 0));
         $settings['hero_background_opacity'] = number_format(
             min(0.98, max(0.55, (float) ($input['hero_background_opacity'] ?? self::DEFAULTS['hero_background_opacity']))),

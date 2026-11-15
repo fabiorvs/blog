@@ -38,7 +38,7 @@
         <div class="container site-footer__inner">
             <div><a class="site-brand" href="<?= base_url() ?>" aria-label="<?= esc($theme['site_name'], 'attr') ?>"><?php if ($theme['logo_path'] !== '') : ?><img class="site-brand__logo site-brand__logo--footer" src="<?= base_url($theme['logo_path']) ?>" alt="<?= esc($theme['site_name'], 'attr') ?>"><?php else : ?><?= esc($theme['site_name']) ?><?php endif ?></a><p><?= esc($theme['footer_text']) ?></p></div>
             <div class="site-footer__links"><a href="<?= base_url() ?>">Início</a><?php if ($theme['show_aulas_locais'] === '1') : ?><a href="<?= base_url('aulas-e-locais') ?>">Aulas e locais</a><?php endif ?><?php menu_paginas() ?></div>
-            <p class="site-footer__copyright">© <?= date('Y') ?> <?= esc($theme['site_name']) ?></p>
+            <p class="site-footer__copyright">© <?= date('Y') ?> <?= esc($theme['site_name']) ?> · <a href="<?= base_url('meu-perfil/login') ?>">Meu perfil</a></p>
         </div>
     </footer>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>

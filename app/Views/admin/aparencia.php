@@ -33,6 +33,22 @@
 
             <div class="admin-card admin-form-card mb-4">
                 <div class="card-body p-4">
+                    <h2 class="h5 mb-1">E-mail e convites</h2>
+                    <p class="text-muted">Configuração SMTP usada para enviar o link de criação de senha aos perfis.</p>
+                    <div class="row g-3">
+                        <div class="col-md-8"><label class="form-label" for="smtp_host">Servidor SMTP</label><input class="form-control" id="smtp_host" name="smtp_host" value="<?= esc($theme['smtp_host'], 'attr') ?>" placeholder="smtp.exemplo.com"></div>
+                        <div class="col-md-4"><label class="form-label" for="smtp_port">Porta</label><input class="form-control" type="number" min="1" max="65535" id="smtp_port" name="smtp_port" value="<?= esc($theme['smtp_port'], 'attr') ?>"></div>
+                        <div class="col-md-6"><label class="form-label" for="smtp_user">Usuário</label><input class="form-control" id="smtp_user" name="smtp_user" value="<?= esc($theme['smtp_user'], 'attr') ?>"></div>
+                        <div class="col-md-6"><label class="form-label" for="smtp_password">Senha ou chave de aplicativo</label><input class="form-control" type="password" id="smtp_password" name="smtp_password" value="<?= esc($theme['smtp_password'], 'attr') ?>" autocomplete="new-password"></div>
+                        <div class="col-md-4"><label class="form-label" for="smtp_crypto">Criptografia</label><select class="form-select" id="smtp_crypto" name="smtp_crypto"><option value="none" <?= $theme['smtp_crypto'] === 'none' ? 'selected' : '' ?>>Nenhuma (MailHog)</option><option value="tls" <?= $theme['smtp_crypto'] === 'tls' ? 'selected' : '' ?>>TLS</option><option value="ssl" <?= $theme['smtp_crypto'] === 'ssl' ? 'selected' : '' ?>>SSL</option></select></div>
+                        <div class="col-md-4"><label class="form-label" for="smtp_from_email">E-mail remetente</label><input class="form-control" type="email" id="smtp_from_email" name="smtp_from_email" value="<?= esc($theme['smtp_from_email'], 'attr') ?>"></div>
+                        <div class="col-md-4"><label class="form-label" for="smtp_from_name">Nome do remetente</label><input class="form-control" id="smtp_from_name" name="smtp_from_name" value="<?= esc($theme['smtp_from_name'], 'attr') ?>"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="admin-card admin-form-card mb-4">
+                <div class="card-body p-4">
                     <h2 class="h5 mb-1">Analytics e métricas</h2>
                     <p class="text-muted small">Cole tags <code>&lt;script&gt;</code> de serviços como Plausible, Google Analytics ou outro provedor. Por segurança, apenas URLs HTTPS externas e atributos <code>data-*</code> são aceitos; scripts inline são removidos.</p>
                     <label class="form-label" for="analytics_scripts">Scripts</label>

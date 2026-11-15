@@ -11,5 +11,5 @@ class InstrutorModel extends Model
     protected $returnType = 'array';
     protected $useSoftDeletes = true;
     protected $useTimestamps = true;
-    protected $allowedFields = ['nome', 'apelido', 'graduacao', 'biografia', 'foto_perfil', 'fotos'];
+    protected $allowedFields = ['nome', 'apelido', 'graduacao', 'email', 'whatsapp', 'biografia', 'foto_perfil', 'fotos', 'senha_hash', 'convite_token', 'convite_expira_em'];
 }
